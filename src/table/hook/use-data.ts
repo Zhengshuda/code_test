@@ -32,7 +32,7 @@ export function useData(props: TablePublicProps): {
     originPageRef: Ref<PageNationType>,
     lastPagenationStep: () => void,
     nextPagenationStep: () => void,
-    setPagenationStep: (page: number) => void
+    setPagenationStep: (pageData: Partial<PageNationType>) => void
 } {
     // 原始数据
     const originData = computed(() => props.data as DataType[]);
@@ -127,7 +127,9 @@ export function useData(props: TablePublicProps): {
         const currentDataLength = originData.value.length;
         const defaultPagenation = props.pagenation ?? DEFAULT_PAGENATION;
         const size = defaultPagenation.size || 1;
-        const totalPage = Math.floor(currentDataLength / size) + currentDataLength % size;
+        const totalPage = currentDataLength < size ? 
+            1 :
+            Math.floor(currentDataLength / size) + currentDataLength % size;
 
         const pageData = {
             page: defaultPagenation.page,
@@ -177,12 +179,12 @@ export function useData(props: TablePublicProps): {
         };
     }
 
-    function setPagenationStep(page: number) {
+    function setPagenationStep(pageData: Partial<PageNationType>) {
         originPageRef.value = {
-            page,
-            totalPage: originPageRef.value.totalPage,
-            size: originPageRef.value.size,
-            totalData: originPageRef.value.totalData
+            page: pageData.page || originPageRef.value.page,
+            totalPage: pageData.totalPage || originPageRef.value.totalPage,
+            size: pageData.size || originPageRef.value.size,
+            totalData: pageData.totalData || originPageRef.value.totalData
         };
     }
 

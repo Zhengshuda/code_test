@@ -26,7 +26,9 @@ export default defineComponent({
         btns.push(
           (<PageBtn 
               active={originPageRef.value.page === i + 1}
-              on-click={() => setPagenationStep(i + 1)}>{i + 1}</PageBtn>)
+              onClick={() => setPagenationStep({
+                page: i + 1
+              })}>{i + 1}</PageBtn>)
         );
       }
       return btns;

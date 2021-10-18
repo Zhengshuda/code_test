@@ -71,7 +71,7 @@ export interface TableKeyInjection {
   sortFunction: (e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) => void,
   lastPagenationStep: () => void,
   nextPagenationStep: () => void,
-  setPagenationStep: (page: number) => void
+  setPagenationStep: (pageData: Partial<PageNationType>) => void
 }
 
 export interface TableBodyRef {
