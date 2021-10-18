@@ -1,5 +1,5 @@
 import { computed, ComputedRef, Ref, ref, watch, nextTick } from "@vue/composition-api";
-import { cloneDeep, merge } from "lodash";
+import { cloneDeep, sortBy } from "lodash";
 import type { TablePublicProps, DataType, SortDirection, SortFnType, SortFnDirection, TableColumns, TableColumn, PageNationType } from "../types";
 
 const DEFAULT_PAGENATION: PageNationType = {
@@ -48,6 +48,8 @@ export function useData(props: TablePublicProps): {
 
     // todo-jest 单测测试值的变化
     watch(originData, () => {
+        sortDataRef.value = [];
+        originPageRef.value = structurePageData();
         if (props.pagenation) {
             setPageData();
             return;
@@ -106,11 +108,11 @@ export function useData(props: TablePublicProps): {
         // 默认排序
         function defaultSort() {
             if (direction === 'DESC') {
-                data.sort();
+                data = sortBy(data, item => item[key]);
                 return data.reverse();
             }
 
-            return data.sort();
+            return sortBy(data, item => item[key]);
         }
 
         dataRef.value = defaultSort();
@@ -127,10 +129,12 @@ export function useData(props: TablePublicProps): {
         const size = defaultPagenation.size || 1;
         const totalPage = Math.floor(currentDataLength / size) + currentDataLength % size;
 
-        const pageData = merge(defaultPagenation, {
+        const pageData = {
+            page: defaultPagenation.page,
+            size: defaultPagenation.size,
             totalPage,
             totalData: currentDataLength,
-        });
+        };
 
         return pageData;
     }
