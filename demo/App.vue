@@ -31,13 +31,13 @@ export default defineComponent({
         title: "序号",
         key: "num",
         sort: true,
-        sortFn(direction: string, a: number, b: number) {
-          if (direction === 'ASC') {
-            return b - a;
-          }
+        // sortFn(direction: string, a: number, b: number) {
+        //   if (direction === 'ASC') {
+        //     return b - a;
+        //   }
 
-          return a - b;
-        }
+        //   return a - b;
+        // }
       },
       {
         title: "名称",
@@ -91,27 +91,37 @@ export default defineComponent({
     };
   },
 
-  // mounted () {
-  //   setTimeout(() => {
-  //     this.changeData([
-  //       {
-  //       num: "101",
-  //       name: "小黄",
-  //       sex: 0,
-  //     },
-  //     {
-  //       num: "10",
-  //       name: "小绿",
-  //       sex: 1,
-  //     },
-  //     {
-  //       num: "11",
-  //       name: "小蓝",
-  //       sex: 0,
-  //     },
-  //     ])
-  //   }, 2000);
-  // }
+  mounted () {
+    setTimeout(() => {
+      this.changeData([
+        {
+        num: "4",
+        name: "小黄",
+        sex: 0,
+      },
+      {
+        num: "1",
+        name: "小绿",
+        sex: 1,
+      },
+      {
+        num: "2",
+        name: "小蓝",
+        sex: 0,
+      },
+      {
+        num: "5",
+        name: "小红",
+        sex: 0,
+      },
+      {
+        num: "3",
+        name: "小黑",
+        sex: 0,
+      },
+      ])
+    }, 2000);
+  }
 });
 </script>
 <style>

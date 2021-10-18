@@ -3,9 +3,9 @@
  */
 
 import {
-  defineComponent, inject,
+  computed,
+  defineComponent, inject
 } from "@vue/composition-api";
-import { VNode } from "vue";
 import { TableKey, TableKeyInjection } from "../types";
 import PageBtn from "./PageBtn";
 
@@ -20,8 +20,8 @@ export default defineComponent({
       setPagenationStep
     } = InjectData;
 
-    function renderBtn() {
-      let btns: VNode[] = [];
+    const pageBtns = computed(() => {
+      let btns = [];
       for (let i = 0; i < originPageRef.value.totalPage; i++) {
         btns.push(
           (<PageBtn 
@@ -30,7 +30,8 @@ export default defineComponent({
         );
       }
       return btns;
-    }
+    });
+
     return () => (
       <div class="table-pagenation-content">
         <div class="table-pagenation-content__total">
@@ -40,7 +41,7 @@ export default defineComponent({
           direction='left'
           cls={originPageRef.value.page === 1 ? 'isFirst' : ''} 
           on-click={lastPagenationStep} />
-        {renderBtn()}
+        {pageBtns.value}
         <PageBtn
           direction='right' 
           cls={originPageRef.value.page === originPageRef.value.totalPage ? 'isLast' : ''} 
