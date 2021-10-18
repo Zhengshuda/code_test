@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table render 1`] = `
+"<div>
+  <table>
+    <thead class=\\"table-header table-header__align-left\\">
+      <tr>
+        <th><input type=\\"checkbox\\"></th>
+        <th>111</th>
+        <th>222</th>
+        <th>111</th>
+      </tr>
+    </thead>
+    <thead class=\\"table-body table-body__align-left\\">
+      <tr>
+        <td><input type=\\"checkbox\\"></td>
+        <td>第一行</td>
+        <td>第二行</td>
+      </tr>
+    </thead>
+  </table>
+</div>"
+`;

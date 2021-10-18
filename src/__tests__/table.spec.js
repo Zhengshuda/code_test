@@ -16,10 +16,10 @@ describe('Table', () => {
   test('props test', () => {
     const wrapper = TableMount({
       propsData: {
-        test: true,
+        align: 'left',
       },
     })
 
-    expect(wrapper.find('.test-class').exists()).toBeTruthy()
+    expect(wrapper.find('.table-body__align-left').exists()).toBeTruthy()
   })
 })

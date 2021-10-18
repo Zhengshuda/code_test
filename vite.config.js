@@ -37,7 +37,7 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      // { find: 'vue', replacement: path.resolve(__dirname, '../node_modules/vue/dist/vue.js') },
+      { find: '@', replacement: path.resolve(__dirname, 'src') },
     ],
   },
   // css: {

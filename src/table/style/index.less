@@ -1,0 +1,121 @@
+.table-wrap {
+  width: 100%;
+
+  &.table-wrap-border {
+    border: 1px solid rgba(239, 239, 245, 1);
+    border-bottom: 0;
+  }
+
+  .table-content {
+    width: 100%;
+    box-sizing: border-box;
+    border-spacing: 0;
+
+    .table-thead {
+      width: 100%;
+      background-color: rgb(249, 249, 252);
+
+      .table-thead-tr {
+        border-bottom: 1px solid rgba(239, 239, 245, 1);
+
+        .table-thead-th {
+          padding: 8px;
+          text-align: center;
+          border-bottom: 1px solid rgba(239, 239, 245, 1);
+
+          &.table-thead-th__sort {
+            cursor: pointer;
+          }
+
+          .table-thead-th-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .table-thead-th-title__text {
+              position: relative;
+              flex: 1;
+            }
+
+            .table-thead-th-title__sort {
+              color: #bfbfbf;
+              display: flex;
+              flex-direction: column;
+              font-size: 12px;
+
+              &__asc.active {
+                color: green;
+              }
+
+              ;
+
+              &__desc.active {
+                color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .table-body {
+      .table-body-tr {
+        .table-body-td {
+          padding: 8px;
+          text-align: center;
+          border-bottom: 1px solid rgba(239, 239, 245, 1);
+        }
+      }
+    }
+  }
+}
+
+.table-pagenation {
+  margin: 12px 0 0 0;
+  display: flex;
+  justify-content: flex-end;
+
+  .table-pagenation-content {
+    display: flex;
+
+    .table-pagenation-content__total {
+      line-height: 28px;
+      font-size: 12px;
+    }
+
+    .table-pagenation-content__btn {
+      border: 1px solid rgb(224, 224, 230);
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 4px;
+      color: rgb(51, 54, 57);
+      border-radius: 4px;
+      margin-left: 8px;
+
+      // & ~ .table-pagenation-content__btn {
+        
+      // }
+
+      &:hover,
+      &.active {
+        border-color: #18a058;
+      }
+    }
+    .table-pagenation-content__left-btn.isFirst,
+    .table-pagenation-content__right-btn.isLast {
+      background-color: rgb(250, 250, 252);
+        border-color: 1px solid rgb(224, 224, 230);
+        user-select: none;
+        cursor: not-allowed;
+        &:hover {
+          border-color: rgb(224, 224, 230);
+        }
+    }
+  }
+}
