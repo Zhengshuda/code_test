@@ -33,6 +33,14 @@ export const tableProps = {
     type: Boolean,
     default: false,
   },
+  columns: {
+    type: Array,
+    default: () => []
+  },
+  data: {
+    type: Array,
+    default: () => []
+  }
 }
 
 export type TablePublicProps = IxPublicPropTypes<typeof tableProps>

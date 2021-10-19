@@ -1,12 +1,12 @@
 <template>
   <div>
-    <TestTable :test="test">
+    <TestTable :columns="columns" :data="data">
       <span>xxxxxx</span>
     </TestTable>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="tsx">
 import { TestTable } from '../src/table'
 import { defineComponent, ref } from '@vue/composition-api'
 
@@ -16,9 +16,28 @@ export default defineComponent({
     TestTable,
   },
   setup() {
-    const test = ref(true)
+    const columns = ref([
+      {
+        key: 'key1',
+        name: 'key1'
+      },
+      {
+        key: 'key2',
+        name: 'key2',
+        render(data) {
+          return <h1>{data}</h1>;
+        }
+      }
+    ])
 
-    return { test }
+    const data = ref([
+      {
+        key1: 1,
+        key2: 2
+      }
+    ])
+
+    return { columns, data }
   },
 })
 </script>
