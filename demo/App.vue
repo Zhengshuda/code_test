@@ -4,7 +4,7 @@
       :columns="columns"
       :data="data"
       header-align="left"
-      :border="false"
+      :border="border"
       :row-height="60"
       :pagenation="pagenation"
     >
@@ -14,7 +14,7 @@
 
 <script lang="tsx">
 import { TestTable } from "../src/table";
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "App",
@@ -26,6 +26,7 @@ export default defineComponent({
       size: 2,
       page: 1
     })
+    const border = ref(false);
     const columns = ref([
       {
         title: "序号",
@@ -83,45 +84,47 @@ export default defineComponent({
       data.value = newData;
     }
 
+    onMounted(() => {
+      setTimeout(() => {
+        border.value = true;
+        changeData([
+          {
+            num: "4",
+            name: "小黄",
+            sex: 0,
+          },
+          {
+            num: "1",
+            name: "小绿",
+            sex: 1,
+          },
+          {
+            num: "2",
+            name: "小蓝",
+            sex: 0,
+          },
+          {
+            num: "5",
+            name: "小红",
+            sex: 0,
+          },
+          {
+            num: "3",
+            name: "小黑",
+            sex: 0,
+          },
+        ])
+      }, 2000)
+    });
+
     return {
       columns,
       data,
       pagenation,
+      border,
       changeData
     };
   },
-
-  mounted () {
-    setTimeout(() => {
-      this.changeData([
-        {
-        num: "4",
-        name: "小黄",
-        sex: 0,
-      },
-      {
-        num: "1",
-        name: "小绿",
-        sex: 1,
-      },
-      {
-        num: "2",
-        name: "小蓝",
-        sex: 0,
-      },
-      {
-        num: "5",
-        name: "小红",
-        sex: 0,
-      },
-      {
-        num: "3",
-        name: "小黑",
-        sex: 0,
-      },
-      ])
-    }, 2000);
-  }
 });
 </script>
 <style>

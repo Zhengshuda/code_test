@@ -19,6 +19,7 @@ export default defineComponent({
     const {
       columnsRef,
       headerAlign,
+      contentBorder,
       sortFunction
     } = InjectData;
 
@@ -50,7 +51,8 @@ export default defineComponent({
           const thClassList = [
             'table-thead-th',
             column.className ? column.className : '',
-            column.sort ? 'table-thead-th__sort' : ''
+            column.sort ? 'table-thead-th__sort' : '',
+            contentBorder.value ? 'table-thead-th__border': ''
           ];
           return (
             <th
@@ -58,7 +60,7 @@ export default defineComponent({
               key={column.key}
               style={{
                 textAlign: column.align || headerAlign.value,
-                ...column.width && {width: getStylePx(column.width).value}
+                ...column.width && { width: getStylePx(column.width).value }
               }}
               onClick={(e) => headerClick(e, column, sortDirection)}>
               <div class="table-thead-th-title">
@@ -77,7 +79,7 @@ export default defineComponent({
           );
         })
       )
-    } 
+    }
 
     return {
       rendertheadRows

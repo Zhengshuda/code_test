@@ -20,6 +20,7 @@ export default defineComponent({
       headerAlign,
       dataRef,
       rowHeight,
+      contentBorder,
     } = InjectData;
 
     function renderColumns() {
@@ -31,7 +32,8 @@ export default defineComponent({
             {columnsRef.value.map(column => {
               const tdClassList = [
                 'table-body-td',
-                isLastTd ? 'table-body-td-last' : ''
+                isLastTd ? 'table-body-td-last' : '',
+                contentBorder.value ? 'table-body-td-border' : ''
               ];
               return (<td
                 class={tdClassList}

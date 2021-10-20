@@ -5,7 +5,7 @@
 import {
 	computed,
 	defineComponent,
-	provide
+	provide,
 } from "@vue/composition-api";
 import { TableKey, tableProps } from "./types";
 import TableContent from './components/Content';
@@ -30,7 +30,8 @@ export default defineComponent({
 			columnsRef: columns,
 			headerAlign: computed(() => props.headerAlign), 
 			rowHeight: computed(() => props.rowHeight),
-			align: computed(() => props.align), 
+			align: computed(() => props.align),
+      contentBorder: computed(() => props.contentBorder),
 			dataRef,
 			originData: originData.value,
       originPageRef,
@@ -40,22 +41,15 @@ export default defineComponent({
       setPagenationStep
 		});
 
-		const classList = {
-			"table-wrap": true,
-			"table-wrap-border": props.border
-		};
-
-		return {
-			classList
-		};
-	},
-
-	render() {
-		return (
-			<div class={this.classList}>
+		return () => (
+			<div class={{
+        "table-wrap": true,
+        "table-wrap-border": props.border,
+        "table-wrap-border-has-pagenation": props.pagenation
+      }}>
 				<TableContent></TableContent>
 				{
-					this.pagenation ? (
+					props.pagenation ? (
             <div class="table-pagenation">
               <TablePagenation></TablePagenation>
             </div>
@@ -63,5 +57,5 @@ export default defineComponent({
 				}
 			</div>
 		);
-	}
+	},
 });

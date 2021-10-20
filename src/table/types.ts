@@ -68,6 +68,7 @@ export interface TableKeyInjection {
   originData: DataType[],
   rowHeight: Ref<string | number>,
   originPageRef: Ref<PageNationType>,
+  contentBorder: Ref<boolean>,
   sortFunction: (e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) => void,
   lastPagenationStep: () => void,
   nextPagenationStep: () => void,
@@ -98,15 +99,19 @@ export const tableProps = {
     default: '',
   },
   border: {
-    type: Boolean,
+    type: Boolean as PropType<boolean>,
     default: true
   },
   rowHeight: {
-    type: [Number, String],
+    type: [Number, String] as PropType<number | string>,
     default: 40
   },
   pagenation: {
     type: Object as PropType<PageNationType>
+  },
+  contentBorder: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 }
 
