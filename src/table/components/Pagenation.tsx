@@ -25,6 +25,7 @@ export default defineComponent({
       for (let i = 0; i < originPageRef.value.totalPage; i++) {
         btns.push(
           (<PageBtn 
+              utid={`table-pagenation-${i}`}
               active={originPageRef.value.page === i + 1}
               onClick={() => setPagenationStep({
                 page: i + 1
@@ -40,11 +41,13 @@ export default defineComponent({
           {`共${originPageRef.value.totalData}条数据`}
         </div>
         <PageBtn
+          utid='table-pagenation-last'
           direction='left'
           cls={originPageRef.value.page === 1 ? 'isFirst' : ''} 
           on-click={lastPagenationStep} />
         {pageBtns.value}
         <PageBtn
+          utid='table-pagenation-next'
           direction='right' 
           cls={originPageRef.value.page === originPageRef.value.totalPage ? 'isLast' : ''} 
           on-click={nextPagenationStep} />

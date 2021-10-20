@@ -6,7 +6,6 @@ import {
   defineComponent,
   inject,
 } from "@vue/composition-api";
-import { VNode } from "vue";
 import { getStylePx } from "../hook/use-style";
 import { TableKey, TableKeyInjection, DataType } from "../types";
 
@@ -23,48 +22,41 @@ export default defineComponent({
       contentBorder,
     } = InjectData;
 
-    function renderColumns() {
-      let columns: VNode[] = [];
-      dataRef.value.forEach((item: DataType, index: number) => {
-        const isLastTd = index === dataRef.value.length - 1;
-        columns.push(
-          <tr class="table-body-tr">
-            {columnsRef.value.map(column => {
-              const tdClassList = [
-                'table-body-td',
-                isLastTd ? 'table-body-td-last' : '',
-                contentBorder.value ? 'table-body-td-border' : ''
-              ];
-              return (<td
-                class={tdClassList}
-                style={{
-                  textAlign: column.align || align.value || headerAlign.value,
-                  ...column.width && {width: getStylePx(column.width).value},
-                  height: getStylePx(rowHeight.value).value,
-                  maxHeight: getStylePx(rowHeight.value).value,
-                }}>
-                {column.render ? column.render(item, index) : item[column.key]}
-              </td>
+    return () => {
+      return (
+        <tbody class="table-body">
+          {
+            dataRef.value.map((item: DataType, index: number) => {
+              const isLastTd = index === dataRef.value.length - 1;
+              return (
+                <tr class="table-body-tr">
+                  {
+                    columnsRef.value.map(column => {
+                      const tdClassList = [
+                        'table-body-td',
+                        isLastTd ? 'table-body-td-last' : '',
+                        contentBorder.value ? 'table-body-td-border' : ''
+                      ];
+                      return (<td
+                        utid={`table-body-${column.key}-${index}`}
+                        class={tdClassList}
+                        style={{
+                          textAlign: column.align || align.value || headerAlign.value,
+                          ...column.width && { width: getStylePx(column.width).value },
+                          height: getStylePx(rowHeight.value).value,
+                          maxHeight: getStylePx(rowHeight.value).value,
+                        }}>
+                        {column.render ? column.render(item, index) : item[column.key]}
+                      </td>
+                      )
+                    })
+                  }
+                </ tr>
               )
-            }
-            )}
-          </ tr>
-        );
-      });
-
-      return columns;
-    }
-
-    return {
-      renderColumns
-    }
+            })
+          }
+        </tbody>
+      );
+    };
   },
-
-  render() {
-    return (
-      <tbody class="table-body">
-        {this.renderColumns()}
-      </tbody>
-    );
-  }
 });

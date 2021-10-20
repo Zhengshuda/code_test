@@ -6,7 +6,8 @@
       header-align="left"
       :border="border"
       :row-height="60"
-      :pagenation="pagenation"
+      :pagenation="true"
+      :content-border="true"
     >
     </TestTable>
   </div>

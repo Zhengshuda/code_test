@@ -1,23 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table render 1`] = `
-"<div>
-  <table>
-    <thead class=\\"table-header table-header__align-left\\">
-      <tr>
-        <th><input type=\\"checkbox\\"></th>
-        <th>111</th>
-        <th>222</th>
-        <th>111</th>
+"<div class=\\"table-wrap\\">
+  <table class=\\"table-content\\">
+    <thead class=\\"table-thead\\">
+      <tr class=\\"table-thead-tr\\">
+        <th utid=\\"table-header-num\\" class=\\"table-thead-th\\">
+          <div class=\\"table-thead-th-title\\"><span class=\\"table-thead-th-title__text\\">序号</span></div>
+        </th>
+        <th utid=\\"table-header-name\\" class=\\"table-thead-th\\">
+          <div class=\\"table-thead-th-title\\"><span class=\\"table-thead-th-title__text\\">名称</span></div>
+        </th>
+        <th utid=\\"table-header-sex\\" class=\\"table-thead-th\\">
+          <div class=\\"table-thead-th-title\\"><span class=\\"table-thead-th-title__text\\">性别</span></div>
+        </th>
       </tr>
     </thead>
-    <thead class=\\"table-body table-body__align-left\\">
-      <tr>
-        <td><input type=\\"checkbox\\"></td>
-        <td>第一行</td>
-        <td>第二行</td>
+    <tbody class=\\"table-body\\">
+      <tr class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">4</td>
+        <td utid=\\"table-body-name-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小黄</td>
+        <td utid=\\"table-body-sex-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
       </tr>
-    </thead>
+      <tr class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">1</td>
+        <td utid=\\"table-body-name-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小绿</td>
+        <td utid=\\"table-body-sex-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">1</td>
+      </tr>
+      <tr class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">2</td>
+        <td utid=\\"table-body-name-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小蓝</td>
+        <td utid=\\"table-body-sex-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
+      </tr>
+      <tr class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">5</td>
+        <td utid=\\"table-body-name-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小红</td>
+        <td utid=\\"table-body-sex-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
+      </tr>
+      <tr class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">3</td>
+        <td utid=\\"table-body-name-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">小黑</td>
+        <td utid=\\"table-body-sex-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
+      </tr>
+    </tbody>
   </table>
 </div>"
 `;

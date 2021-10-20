@@ -100,7 +100,7 @@ export const tableProps = {
   },
   border: {
     type: Boolean as PropType<boolean>,
-    default: true
+    default: false
   },
   rowHeight: {
     type: [Number, String] as PropType<number | string>,
@@ -111,7 +111,7 @@ export const tableProps = {
   },
   contentBorder: {
     type: Boolean as PropType<boolean>,
-    default: true
+    default: false
   }
 }
 

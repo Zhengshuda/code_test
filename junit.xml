@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="7" failures="0" errors="0" time="2.126">
+  <testsuite name="Table" errors="0" failures="0" skipped="0" timestamp="2021-10-20T17:01:31" time="0.926" tests="7">
+    <testcase classname="Table render" name="Table render" time="0.039">
+    </testcase>
+    <testcase classname="Table test headerAlign" name="Table test headerAlign" time="0.024">
+    </testcase>
+    <testcase classname="Table test align" name="Table test align" time="0.02">
+    </testcase>
+    <testcase classname="Table test border" name="Table test border" time="0.012">
+    </testcase>
+    <testcase classname="Table test contentBorder" name="Table test contentBorder" time="0.013">
+    </testcase>
+    <testcase classname="Table test rowHeight" name="Table test rowHeight" time="0.012">
+    </testcase>
+    <testcase classname="Table test pagenation" name="Table test pagenation" time="0.059">
+    </testcase>
+  </testsuite>
+</testsuites>

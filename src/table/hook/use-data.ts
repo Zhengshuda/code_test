@@ -125,7 +125,9 @@ export function useData(props: TablePublicProps): {
         }
 
         const currentDataLength = originData.value.length;
-        const defaultPagenation = props.pagenation ?? DEFAULT_PAGENATION;
+        const defaultPagenation = props.pagenation ? 
+            Object.assign({}, props.pagenation, DEFAULT_PAGENATION) : 
+            DEFAULT_PAGENATION;
         const size = defaultPagenation.size || 1;
         const totalPage = currentDataLength < size ? 
             1 :
