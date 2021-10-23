@@ -1,4 +1,4 @@
-import { computed, ComputedRef, Ref, ref, watch, nextTick } from "@vue/composition-api";
+import { computed, Ref, ref, watch } from "@vue/composition-api";
 import { cloneDeep, sortBy } from "lodash";
 import type { TablePublicProps, DataType, SortDirection, SortFnType, SortFnDirection, TableColumns, TableColumn, PageNationType } from "../types";
 
@@ -25,7 +25,6 @@ function getColumns(props: TablePublicProps): TableColumns {
 }
 
 export function useData(props: TablePublicProps): {
-    originData: ComputedRef<DataType[]>,
     dataRef: Ref<DataType[]>,
     sortFunction: (e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) => void
     columns: Ref<TableColumns>,
@@ -191,7 +190,6 @@ export function useData(props: TablePublicProps): {
     }
 
     return {
-        originData,
         dataRef,
         columns,
         originPageRef,

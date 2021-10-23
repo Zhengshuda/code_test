@@ -18,7 +18,6 @@ export default defineComponent({
 	setup(props) {
 		const {
 			columns,
-			originData,
 			dataRef,
       originPageRef,
 			sortFunction,
@@ -28,12 +27,10 @@ export default defineComponent({
 		} = useData(props);
 		provide(TableKey, {
 			columnsRef: columns,
-			headerAlign: computed(() => props.headerAlign), 
 			rowHeight: computed(() => props.rowHeight),
 			align: computed(() => props.align),
       contentBorder: computed(() => props.contentBorder),
 			dataRef,
-			originData: originData.value,
       originPageRef,
 			sortFunction,
       lastPagenationStep,

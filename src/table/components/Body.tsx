@@ -16,7 +16,6 @@ export default defineComponent({
     const {
       columnsRef,
       align,
-      headerAlign,
       dataRef,
       rowHeight,
       contentBorder,
@@ -41,7 +40,7 @@ export default defineComponent({
                         utid={`table-body-${column.key}-${index}`}
                         class={tdClassList}
                         style={{
-                          textAlign: column.align || align.value || headerAlign.value,
+                          textAlign: column.align || align.value,
                           ...column.width && { width: getStylePx(column.width).value },
                           height: getStylePx(rowHeight.value).value,
                           maxHeight: getStylePx(rowHeight.value).value,

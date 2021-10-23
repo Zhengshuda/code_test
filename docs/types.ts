@@ -49,7 +49,7 @@ export type SortDirection = '' | 'ASC' | 'DESC' | undefined;
 export type SortType = {
   direction: SortDirection,
   sortFn: SortFnType<any>
-};
+} | boolean;
 
 /**表格每一列的配置 */
 export type TableColumn = {
@@ -100,8 +100,10 @@ export type DefaultPagenationType = {
 
 export interface TableKeyInjection {
   columnsRef: Ref<TableColumns>
+  headerAlign: Ref<Align>,
   align: Ref<Align>,
   dataRef: Ref<DataType[]>,
+  originData: DataType[],
   rowHeight: Ref<string | number>,
   originPageRef: Ref<PagenationType>,
   contentBorder: Ref<boolean>,

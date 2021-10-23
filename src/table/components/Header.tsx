@@ -18,7 +18,7 @@ export default defineComponent({
     const InjectData = inject(TableKey) as TableKeyInjection;
     const {
       columnsRef,
-      headerAlign,
+      align,
       contentBorder,
       sortFunction
     } = InjectData;
@@ -62,7 +62,7 @@ export default defineComponent({
                     class={thClassList}
                     key={column.key}
                     style={{
-                      textAlign: column.align || headerAlign.value,
+                      textAlign: column.align || align.value,
                       ...column.width && { width: getStylePx(column.width).value }
                     }}
                     utid={`table-header-${column.key}`}
