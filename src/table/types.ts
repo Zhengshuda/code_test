@@ -8,6 +8,12 @@ type PublicRequiredKeys<T> = {
   [K in keyof T]: T[K] extends { required: true } ? K : never
 }[keyof T]
 
+type InnerRequiredKeys<T> = {
+  [K in keyof T]: T[K] extends { required: true } | { default: any } ? K : never
+}[keyof T]
+
+type InnerOptionalKeys<T> = Exclude<keyof T, InnerRequiredKeys<T>>
+
 type PublicOptionalKeys<T> = Exclude<keyof T, PublicRequiredKeys<T>>
 type InferPropType<T> = T extends null
   ? any // null & true would fail to infer
@@ -27,6 +33,11 @@ type InferPropType<T> = T extends null
 export type IxPublicPropTypes<O> = O extends object
   ? { [K in PublicRequiredKeys<O>]: InferPropType<O[K]> } & { [K in PublicOptionalKeys<O>]?: InferPropType<O[K]> }
   : { [K in string]: any }
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type IxInnerPropTypes<O> = O extends object
+? { [K in InnerRequiredKeys<O>]: InferPropType<O[K]> } & { [K in InnerOptionalKeys<O>]?: InferPropType<O[K]> }
+: { [K in string]: any }
 
 // 自定义props声明
 export type Align = 'left' | 'right' | 'center';
@@ -115,6 +126,6 @@ export const tableProps = {
   }
 }
 
-export type TablePublicProps = IxPublicPropTypes<typeof tableProps>
+export type TablePublicProps = IxInnerPropTypes<typeof tableProps>
 
 export const TableKey: InjectionKey<TableKeyInjection> = Symbol('Table')
