@@ -12,13 +12,13 @@ const isDev = process.env.NODE_ENV === 'development';
  * @param isProdLog 生产模式下是否打印
  * @returns 
  */
-const LoggerWrap = (place: string, args: any[], console: any, isProdLog?: boolean) => {
+const LoggerWrap = (place: string, args: any[], log: any, isProdLog?: boolean) => {
   if (!isDev) {
-    isProdLog && console(`[${place}] `, ...args);
+    isProdLog && log(`[${place}] `, ...args);
     return;
   }
 
-  console(`[${place}] `, ...args);
+  log(`[${place}] `, ...args);
 };
 
 export const Logger = {

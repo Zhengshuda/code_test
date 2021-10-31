@@ -1,9 +1,6 @@
 <template>
   <div class="test-class">
-    <TestTable
-      :columns="columns"
-      :data="data"
-    >
+    <TestTable :columns="columns" :data="data" :empty-render="emptyRender">
     </TestTable>
   </div>
 </template>
@@ -27,6 +24,9 @@ export default defineComponent({
       {
         title: "序号",
         key: "num",
+        sort: {
+          direction: 'ASC'
+        }
         // sortFn(direction: string, a: number, b: number) {
         //   if (direction === 'ASC') {
         //     return b - a;
@@ -38,6 +38,9 @@ export default defineComponent({
       {
         title: "名称",
         key: "name",
+        sort: {
+          direction: 'DESC'
+        }
       },
       {
         title: "性别",
@@ -54,43 +57,36 @@ export default defineComponent({
       },
     ]);
 
-    const data = ref([
-          {
-            num: "4",
-            name: "小黄",
-            sex: 0,
-          },
-          {
-            num: "1",
-            name: "小绿",
-            sex: 1,
-          },
-          {
-            num: "2",
-            name: "小蓝",
-            sex: 0,
-          },
-          {
-            num: "5",
-            name: "小红",
-            sex: 0,
-          },
-          {
-            num: "3",
-            name: "小黑",
-            sex: 0,
-          },
-        ]);
+    const list = new Array(100).fill(1);
+
+    // num: "2",
+    //     name: "小蓝",
+    //     sex: 0,
+
+    const data = ref(list.map((item, index) => {
+      return {
+        num: index,
+        name: 'haha' + index,
+        sex: index % 2
+      }
+    }));
 
     function changeData(newData: any) {
       data.value = newData;
     }
+
+    const emptyRender = () =>(
+      <h1>
+        空
+      </h1>
+    );
 
     return {
       columns,
       data,
       pagenation,
       border,
+      emptyRender,
       changeData
     };
   },
@@ -100,6 +96,7 @@ export default defineComponent({
 .test-class {
   width: 600px;
   margin: 100px auto;
+  height: 600px;
 }
 .blue {
   color: blue;

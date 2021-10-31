@@ -1,4 +1,4 @@
-import { computed, Ref, ref, watch } from "@vue/composition-api";
+import { computed, ComputedRef, Ref, ref, watch } from "@vue/composition-api";
 import { cloneDeep, sortBy } from "lodash";
 import type { TablePublicProps, DataType, SortDirection, SortFnType, SortFnDirection, TableColumns, TableColumn, PageNationType } from "../types";
 
@@ -9,19 +9,17 @@ const DEFAULT_PAGENATION: PageNationType = {
     size: 1
 };
 
-function getColumns(props: TablePublicProps): TableColumns {
+function useColumns(props: TablePublicProps): ComputedRef<TableColumns> {
+    let columns: TableColumns = [];
     // 这里面可以对每一列做特殊处理，此处暂不作处理
     if (Array.isArray(props.columns)) {
-        return props.columns.map(item => {
+        columns = props.columns.map(item => {
             return {
-                ...item,
-                ...item.sort ? {
-                    sortDirection: item.sortDirection || ''
-                } : {}
+                ...item
             };
         });
     }
-    return [];
+    return computed(() => columns);
 }
 
 export function useData(props: TablePublicProps): {
@@ -71,14 +69,14 @@ export function useData(props: TablePublicProps): {
     setPageData();
 
     // 每一列的配置
-    const columns = ref(getColumns(props));
+    const columns = useColumns(props);
 
     // 排序的函数 todo-jest 单测测试排序功能，检查头部是否变化 数据是否变化
     function sortFunction(e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) {
         const defaultList = ['', 'ASC', 'DESC'] as const;
         const index = defaultList.findIndex(item => item === sortDirection.value);
         sortDirection.value = index + 1 > 2 ? defaultList[0] : defaultList[index + 1];
-        column.sortDirection = sortDirection.value;
+        column.sort.direction = sortDirection.value;
         sortData(column.key, sortDirection.value, column.sortFn);
         sortDataRef.value = dataRef.value;
     }

@@ -42,13 +42,19 @@ export type IxInnerPropTypes<O> = O extends object
 // 自定义props声明
 export type Align = 'left' | 'right' | 'center';
 
+export const enum DIRECTION_TYPE {
+  DEFAULT = '',
+  DESC = 'DESC',
+  ASC = 'ASC'
+};
+
 /**排序方向 */
-export type SortDirection = '' | 'ASC' | 'DESC' | undefined;
+export type SortDirection = typeof DIRECTION_TYPE[keyof typeof DIRECTION_TYPE];
 
 /**排序配置 */
 export type SortType = {
   direction: SortDirection,
-  sortFn: SortFnType<any>
+  sortFn?: SortFnType<any>
 };
 
 /**表格每一列的配置 */
@@ -98,13 +104,29 @@ export type DefaultPagenationType = {
   size: number
 };
 
+export interface InnerSort {
+  direction: SortDirection,
+  sortFn?: SortFnType<any>,
+  changeSortState: (column: TableColumn) => void;
+}
+
+export type MergeTableColumn = TableColumn & {innerSort: Ref<InnerSort>};
+
+
+export interface SortStateType {
+  key?: string,
+  direction: SortDirection,
+  sortFn?: SortFnType<any>
+}
 export interface TableKeyInjection {
-  columnsRef: Ref<TableColumns>
+  columnsRef: Ref<TableColumns>,
+  sortState: Ref<SortStateType>,
   align: Ref<Align>,
   dataRef: Ref<DataType[]>,
   rowHeight: Ref<string | number>,
   originPageRef: Ref<PagenationType>,
   contentBorder: Ref<boolean>,
+  changeSortState: (column: TableColumn) => void;
   sortFunction: (e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) => void,
   lastPagenationStep: () => void,
   nextPagenationStep: () => void,

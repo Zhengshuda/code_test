@@ -11,13 +11,15 @@ import { TableKey, tableProps } from "./types";
 import TableContent from './components/Content';
 import TablePagenation from './components/Pagenation';
 import { useData } from "./hook/use-data";
+import { useColumns } from "./hook/use-column";
+import { useSort } from "./hook/use-sort";
 
 export default defineComponent({
 	name: "Table",
 	props: tableProps,
 	setup(props) {
+		const columnsRef = useColumns(props);
 		const {
-			columns,
 			dataRef,
       originPageRef,
 			sortFunction,
@@ -25,13 +27,17 @@ export default defineComponent({
       nextPagenationStep,
       setPagenationStep
 		} = useData(props);
+		const {sortState, changeSortState} = useSort(columnsRef);
+		
 		provide(TableKey, {
-			columnsRef: columns,
+			columnsRef,
+			sortState,
 			rowHeight: computed(() => props.rowHeight),
 			align: computed(() => props.align),
       contentBorder: computed(() => props.contentBorder),
 			dataRef,
       originPageRef,
+			changeSortState,
 			sortFunction,
       lastPagenationStep,
       nextPagenationStep,
@@ -51,6 +57,9 @@ export default defineComponent({
               <TablePagenation></TablePagenation>
             </div>
            ) : null
+				}
+				{
+					!props.data.length && props.emptyRender?.()
 				}
 			</div>
 		);

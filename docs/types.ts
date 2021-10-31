@@ -49,7 +49,7 @@ export type SortDirection = '' | 'ASC' | 'DESC' | undefined;
 export type SortType = {
   direction: SortDirection,
   sortFn: SortFnType<any>
-} | boolean;
+};
 
 /**表格每一列的配置 */
 export type TableColumn = {
