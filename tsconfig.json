@@ -23,7 +23,8 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@tests": ["./tests"],
-      "@tests/*": ["./tests/*"]
+      "@tests/*": ["./tests/*"],
+      "@/*": ["./src/*"]
     },
     "types": ["jest", "unplugin-vue2-script-setup/types", "unplugin-vue2-script-setup/ref-macros"]
   },

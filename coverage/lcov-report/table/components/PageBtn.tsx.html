@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -108,7 +108,12 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -143,19 +148,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">83x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59x</span>
+<span class="cline-any cline-yes">145x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,52 +172,56 @@
  */
 &nbsp;
 import {
+  PropType,
   computed,
   defineComponent,
-  PropType,
-} from "@vue/composition-api";
+} from '@vue/composition-api'
+import { Align } from '../types'
 &nbsp;
 const DIRECTION = {
   left: 'left',
-  right: 'right'
-} as Record&lt;string, string&gt;;
+  right: 'right',
+} as Record&lt;string, string&gt;
 &nbsp;
 const DIRECTION_TEXT = {
   [DIRECTION.left]: '&lt;',
-  [DIRECTION.right]: '&gt;'
+  [DIRECTION.right]: '&gt;',
 }
 &nbsp;
 export default defineComponent({
-  name: "TablePagenationBtn",
+  name: 'TablePagenationBtn',
   props: {
     direction: {
-      type: String as PropType&lt;string&gt;,
+      type: String as PropType&lt;Align&gt;,
+      default: '',
     },
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     cls: {
       type: [Array, String],
-    }
+      default: '',
+    },
   },
+  emits: ['click'],
   setup(props, { slots, emit }) {
-    let direction = DIRECTION[props.direction as string];
-    let text = DIRECTION_TEXT[direction];
-    let classList = computed(() =&gt; Array.isArray(props.cls) ? <span class="branch-0 cbranch-no" title="branch not covered" >props.cls </span>: [props.cls]);
-    let active = computed(() =&gt; props.active);
+    const direction = DIRECTION[props.direction as string]
+    const text = DIRECTION_TEXT[direction]
+    const classList = computed(() =&gt; Array.isArray(props.cls) ? <span class="branch-0 cbranch-no" title="branch not covered" >props.cls </span>: [props.cls])
+    const active = computed(() =&gt; props.active)
 &nbsp;
     return () =&gt; (
       &lt;div class={[
         direction ? `table-pagenation-content__${direction}-btn` : '',
         'table-pagenation-content__btn',
         active.value ? 'active' : '',
-        ...classList.value
+        ...classList.value,
       ]}
-      onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >emit('click')}</span>&gt;{slots?.default?.() || text}&lt;/div&gt;
+      onClick={() =&gt; emit('click')}&gt;{slots?.default?.() || text}&lt;/div&gt;
     )
   },
-});
+})
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -217,7 +229,7 @@ export default defineComponent({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Oct 21 2021 01:01:32 GMT+0800 (中国标准时间)
+                at Mon Nov 01 2021 01:41:02 GMT+0800 (中国标准时间)
             </div>
         </div>
         <script src="../../prettify.js"></script>

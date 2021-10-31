@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table render 1`] = `
-"<div class=\\"table-wrap\\">
+"<div class=\\"table-wrap table-wrap-border-has-pagenation\\">
   <table class=\\"table-content\\">
     <thead class=\\"table-thead\\">
       <tr class=\\"table-thead-tr\\">
@@ -18,31 +18,23 @@ exports[`Table render 1`] = `
     </thead>
     <tbody class=\\"table-body\\">
       <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">4</td>
-        <td utid=\\"table-body-name-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小黄</td>
-        <td utid=\\"table-body-sex-0\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
-      </tr>
-      <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">1</td>
-        <td utid=\\"table-body-name-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小绿</td>
-        <td utid=\\"table-body-sex-1\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">1</td>
-      </tr>
-      <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">2</td>
-        <td utid=\\"table-body-name-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小蓝</td>
-        <td utid=\\"table-body-sex-2\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
-      </tr>
-      <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">5</td>
-        <td utid=\\"table-body-name-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">小红</td>
-        <td utid=\\"table-body-sex-3\\" class=\\"table-body-td\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
-      </tr>
-      <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">3</td>
-        <td utid=\\"table-body-name-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">小黑</td>
-        <td utid=\\"table-body-sex-4\\" class=\\"table-body-td table-body-td-last\\" style=\\"height: 40px; max-height: 40px;\\">0</td>
+        <td utid=\\"table-body-num-0\\" class=\\"table-body-td table-body-td-last\\">4</td>
+        <td utid=\\"table-body-name-0\\" class=\\"table-body-td table-body-td-last\\">小黄</td>
+        <td utid=\\"table-body-sex-0\\" class=\\"table-body-td table-body-td-last\\">0</td>
       </tr>
     </tbody>
   </table>
+  <div class=\\"table-pagenation\\">
+    <div class=\\"table-pagenation-content\\">
+      <div class=\\"table-pagenation-content__total\\">共5条数据</div>
+      <div class=\\"table-pagenation-content__left-btn table-pagenation-content__btn disabled\\" utid=\\"table-pagenation-last\\">&lt;</div>
+      <div class=\\"table-pagenation-content__btn active\\" utid=\\"table-pagenation-0\\">1</div>
+      <div class=\\"table-pagenation-content__btn\\" utid=\\"table-pagenation-1\\">2</div>
+      <div class=\\"table-pagenation-content__btn\\" utid=\\"table-pagenation-2\\">3</div>
+      <div class=\\"table-pagenation-content__btn\\" utid=\\"table-pagenation-3\\">4</div>
+      <div class=\\"table-pagenation-content__btn\\" utid=\\"table-pagenation-4\\">5</div>
+      <div class=\\"table-pagenation-content__right-btn table-pagenation-content__btn\\" utid=\\"table-pagenation-next\\">&gt;</div>
+    </div>
+  </div>
 </div>"
 `;

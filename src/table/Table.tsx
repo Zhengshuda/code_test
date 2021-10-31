@@ -3,56 +3,76 @@
  */
 
 import {
-	computed,
-	defineComponent,
-	provide,
-} from "@vue/composition-api";
-import { TableKey, tableProps } from "./types";
-import TableContent from './components/Content';
-import TablePagenation from './components/Pagenation';
-import { useData } from "./hook/use-data";
+  computed,
+  defineComponent,
+  provide,
+} from '@vue/composition-api'
+import { PagenationType, TableKey, TableKeyInjection, tableProps } from './types'
+import TableContent from './components/Content'
+import TablePagenation from './components/Pagenation'
+import { useData } from './hook/use-data'
+import { useSort } from './hook/use-sort'
+import { useColumns } from './hook/use-columns'
+import { usePage } from './hook/use-page'
+import { Logger } from '@/utils/Logger'
+import { isFunction } from 'lodash'
 
 export default defineComponent({
-	name: "Table",
-	props: tableProps,
-	setup(props) {
-		const {
-			columns,
-			dataRef,
+  name: 'Table',
+  props: tableProps,
+  emits: ['page-change'],
+  setup(props, { emit }) {
+    Logger.trace('Table.tsx/setup', '传入表格组件的参数', props)
+    const columnsRef = useColumns(props)
+    const {
+      sortDataRef,
+      sortFunction,
+    } = useSort(props)
+    const {
       originPageRef,
-			sortFunction,
       lastPagenationStep,
       nextPagenationStep,
-      setPagenationStep
-		} = useData(props);
-		provide(TableKey, {
-			columnsRef: columns,
-			rowHeight: computed(() => props.rowHeight),
-			align: computed(() => props.align),
-      contentBorder: computed(() => props.contentBorder),
-			dataRef,
-      originPageRef,
-			sortFunction,
-      lastPagenationStep,
-      nextPagenationStep,
-      setPagenationStep
-		});
+      setPagenationStep,
+    } = usePage(props, (pageConfig: PagenationType) => emit('page-change', pageConfig))
+    const {
+      dataRef,
+    } = useData(props, originPageRef, sortDataRef)
 
-		return () => (
-			<div class={{
-        "table-wrap": true,
-        "table-wrap-border": props.border,
-        "table-wrap-border-has-pagenation": props.pagenation
+    const privideData: TableKeyInjection = {
+      columnsRef: columnsRef,
+      align: computed(() => props.align),
+      contentBorder: computed(() => props.contentBorder),
+      dataRef,
+      originPageRef,
+      sortFunction,
+      lastPagenationStep,
+      nextPagenationStep,
+      setPagenationStep,
+      emitFn: emit,
+    }
+
+    Logger.debug('Table.tsx/setup', '通过hook后进入组件的变量', privideData)
+    provide(TableKey, privideData)
+
+    return () => (
+      <div class={{
+        'table-wrap': true,
+        'table-wrap-border': props.border,
+        'table-wrap-border-has-pagenation': props.pagenation,
       }}>
-				<TableContent></TableContent>
-				{
-					props.pagenation ? (
-            <div class="table-pagenation">
-              <TablePagenation></TablePagenation>
-            </div>
-           ) : null
-				}
-			</div>
-		);
-	},
-});
+        <TableContent></TableContent>
+        {
+          props.data.length ? (
+            props.pagenation ? (
+              <div class="table-pagenation">
+                <TablePagenation></TablePagenation>
+              </div>
+            ) : null
+          ): (
+            isFunction(props.emptyRender) ? props.emptyRender() : props.emptyRender
+          )
+        }
+      </div>
+    )
+  },
+})

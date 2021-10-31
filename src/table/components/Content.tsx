@@ -3,36 +3,26 @@
  */
 
 import {
-    defineComponent,
-    inject,
-    ref
-} from "@vue/composition-api";
-import TableHeader from './Header';
-import TableBody from './Body';
-import { TableBodyRef, TableKey, TableKeyInjection } from "../types";
+  defineComponent,
+} from '@vue/composition-api'
+import TableHeader from './Header'
+import TableBody from './Body'
 
 export default defineComponent({
-    name: "TableContent",
-    setup(props, { slots }) {
-        const InjectData = inject(TableKey) as TableKeyInjection;
-        const {
-            sortFunction
-          } = InjectData;
-        const tableBodyRef = ref<TableBodyRef | null>(null);
-        return {
-            slots,
-            tableBodyRef,
-            sortFunction
-        };
-    },
-
-    render() {
-        return (
-            <table class="table-content">
-                <TableHeader ref="tableHeaderRef"></TableHeader>
-                <TableBody ref="tableBodyRef"></TableBody>
-                {this.slots?.default?.()}
-            </table>
-        );
+  name: 'TableContent',
+  setup(props, { slots }) {
+    return {
+      slots,
     }
-});
+  },
+
+  render() {
+    return (
+      <table class="table-content">
+        <TableHeader ref="tableHeaderRef"></TableHeader>
+        <TableBody ref="tableBodyRef"></TableBody>
+        {this.slots?.default?.()}
+      </table>
+    )
+  },
+})

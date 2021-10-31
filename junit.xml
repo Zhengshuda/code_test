@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="7" failures="0" errors="0" time="2.126">
-  <testsuite name="Table" errors="0" failures="0" skipped="0" timestamp="2021-10-20T17:01:31" time="0.926" tests="7">
-    <testcase classname="Table render" name="Table render" time="0.039">
+<testsuites name="jest tests" tests="21" failures="0" errors="0" time="3.325">
+  <testsuite name="Table" errors="0" failures="0" skipped="0" timestamp="2021-10-31T17:41:00" time="1.744" tests="21">
+    <testcase classname="Table render" name="Table render" time="0.079">
     </testcase>
-    <testcase classname="Table test headerAlign" name="Table test headerAlign" time="0.024">
+    <testcase classname="Table test align" name="Table test align" time="0.052">
     </testcase>
-    <testcase classname="Table test align" name="Table test align" time="0.02">
+    <testcase classname="Table test column align" name="Table test column align" time="0.022">
     </testcase>
-    <testcase classname="Table test border" name="Table test border" time="0.012">
+    <testcase classname="Table test border" name="Table test border" time="0.018">
     </testcase>
-    <testcase classname="Table test contentBorder" name="Table test contentBorder" time="0.013">
+    <testcase classname="Table test contentBorder" name="Table test contentBorder" time="0.02">
     </testcase>
-    <testcase classname="Table test rowHeight" name="Table test rowHeight" time="0.012">
+    <testcase classname="Table test emptyRender" name="Table test emptyRender" time="0.014">
     </testcase>
-    <testcase classname="Table test pagenation" name="Table test pagenation" time="0.059">
+    <testcase classname="Table test column className" name="Table test column className" time="0.013">
+    </testcase>
+    <testcase classname="Table test pagenation" name="Table test pagenation" time="0.03">
+    </testcase>
+    <testcase classname="Table 测试分页按钮的点击" name="Table 测试分页按钮的点击" time="0.028">
+    </testcase>
+    <testcase classname="Table 测试分页上一步按钮在对应的状态下是否置灰" name="Table 测试分页上一步按钮在对应的状态下是否置灰" time="0.016">
+    </testcase>
+    <testcase classname="Table 测试分页下一步按钮在对应的状态下是否置灰" name="Table 测试分页下一步按钮在对应的状态下是否置灰" time="0.021">
+    </testcase>
+    <testcase classname="Table 测试分页超出页数时是否自动切到最后一个" name="Table 测试分页超出页数时是否自动切到最后一个" time="0.02">
+    </testcase>
+    <testcase classname="Table 测试分页超出页数时是否自动切到第一个" name="Table 测试分页超出页数时是否自动切到第一个" time="0.023">
+    </testcase>
+    <testcase classname="Table 测试分页下一页按钮功能" name="Table 测试分页下一页按钮功能" time="0.03">
+    </testcase>
+    <testcase classname="Table 测试分页上一页按钮功能" name="Table 测试分页上一页按钮功能" time="0.034">
+    </testcase>
+    <testcase classname="Table 测试列的宽度调整" name="Table 测试列的宽度调整" time="0.048">
+    </testcase>
+    <testcase classname="Table test sort" name="Table test sort" time="0.02">
+    </testcase>
+    <testcase classname="Table 测试点击排序" name="Table 测试点击排序" time="0.035">
+    </testcase>
+    <testcase classname="Table 测试自定义排序规则" name="Table 测试自定义排序规则" time="0.146">
+    </testcase>
+    <testcase classname="Table 测试列的渲染函数" name="Table 测试列的渲染函数" time="0.013">
+    </testcase>
+    <testcase classname="Table 异常测试" name="Table 异常测试" time="0.066">
     </testcase>
   </testsuite>
 </testsuites>

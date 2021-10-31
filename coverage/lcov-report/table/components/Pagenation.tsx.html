@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.9% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/11</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>12/12</span>
             </div>
         
             
@@ -114,7 +114,17 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,31 +138,41 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">121x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,38 +195,48 @@
  * Created by uedc on 2021/10/11.
  */
 &nbsp;
+import { Logger } from '@/utils/Logger'
 import {
   computed,
-  defineComponent, inject
-} from "@vue/composition-api";
-import { TableKey, TableKeyInjection } from "../types";
-import PageBtn from "./PageBtn";
+  defineComponent, inject,
+} from '@vue/composition-api'
+import { TableKey, TableKeyInjection } from '../types'
+import PageBtn from './PageBtn'
 &nbsp;
 export default defineComponent({
-  name: "TablePagenation",
+  name: 'TablePagenation',
   setup() {
-    const InjectData = inject(TableKey) as TableKeyInjection;
+    const InjectData = inject(TableKey) as TableKeyInjection
     const {
       originPageRef,
       lastPagenationStep,
       nextPagenationStep,
-      setPagenationStep
-    } = InjectData;
+      setPagenationStep,
+    } = InjectData
+&nbsp;
+    Logger.debug('Pagenation.tsx/setup', '当前pagenation接收的参数', {
+      originPageRef,
+      lastPagenationStep,
+      nextPagenationStep,
+      setPagenationStep,
+    })
 &nbsp;
     const pageBtns = computed(() =&gt; {
-      let btns = [];
+      const btns = []
       for (let i = 0; i &lt; originPageRef.value.totalPage; i++) {
         btns.push(
-          (&lt;PageBtn 
-              utid={`table-pagenation-${i}`}
-              active={originPageRef.value.page === i + 1}
-              onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setPagenationStep({</span>
-                page: i + 1
-              })}&gt;{i + 1}&lt;/PageBtn&gt;)
-        );
+          (&lt;PageBtn
+            utid={`table-pagenation-${i}`}
+            active={originPageRef.value.page === i + 1}
+            on-click={() =&gt; setPagenationStep({
+              page: i + 1,
+            })}&gt;{i + 1}&lt;/PageBtn&gt;),
+        )
       }
-      return btns;
-    });
+      return btns
+    })
+&nbsp;
+    Logger.debug('Pagenation.tsx/setup', '生成的按钮', pageBtns)
 &nbsp;
     return () =&gt; (
       &lt;div class="table-pagenation-content"&gt;
@@ -216,18 +246,18 @@ export default defineComponent({
         &lt;PageBtn
           utid='table-pagenation-last'
           direction='left'
-          cls={originPageRef.value.page === 1 ? 'isFirst' : <span class="branch-1 cbranch-no" title="branch not covered" >''} </span>
+          cls={originPageRef.value.page === 1 ? 'disabled' : ''}
           on-click={lastPagenationStep} /&gt;
         {pageBtns.value}
         &lt;PageBtn
           utid='table-pagenation-next'
-          direction='right' 
-          cls={originPageRef.value.page === originPageRef.value.totalPage ? <span class="branch-0 cbranch-no" title="branch not covered" >'isLast' </span>: ''} 
+          direction='right'
+          cls={originPageRef.value.page === originPageRef.value.totalPage ? 'disabled' : ''}
           on-click={nextPagenationStep} /&gt;
       &lt;/div&gt;
-    );
+    )
   },
-});
+})
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -235,7 +265,7 @@ export default defineComponent({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Oct 21 2021 01:01:32 GMT+0800 (中国标准时间)
+                at Mon Nov 01 2021 01:41:02 GMT+0800 (中国标准时间)
             </div>
         </div>
         <script src="../../prettify.js"></script>

@@ -42,16 +42,17 @@ module.exports = {
   moduleNameMapper: {
     '^@tests': '<rootDir>/tests',
     '^@tests/(.*)$': '<rootDir>/tests/$1',
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   collectCoverage: true,
   coverageReporters: ['json', 'lcov', 'text', 'cobertura'],
   coverageThreshold: {
     global: {
-      branches: 85,
-      functions: 85,
-      lines: 85,
-      statements: 85,
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90,
     },
   },
   coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/tests'],

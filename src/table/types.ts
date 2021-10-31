@@ -43,23 +43,28 @@ export type IxInnerPropTypes<O> = O extends object
 export type Align = 'left' | 'right' | 'center';
 
 /**排序方向 */
-export type SortDirection = '' | 'ASC' | 'DESC' | undefined;
+export const enum SORT_DIRECTION {
+  DEFAULT = '',
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+export type SortDirection = typeof SORT_DIRECTION[keyof typeof SORT_DIRECTION];
 
 /**排序配置 */
 export type SortType = {
-  direction: SortDirection,
-  sortFn: SortFnType<any>
+  direction: SortDirection
+  sortFn?: SortFnType
 };
 
 /**表格每一列的配置 */
 export type TableColumn = {
-  title?: string,
-  key: string,
-  align?: Align,
-  sort?: SortType,
-  className?: string,
-  render?: (data: DataType, index: number) => VNode,
-  width?: number | string,
+  title?: string
+  key: string
+  align?: Align
+  sort?: SortType
+  className?: string
+  render?: (data: DataType, index: number) => VNode
+  width?: number | string
 };
 
 /**表格列的全部声明 */
@@ -68,61 +73,63 @@ export type TableColumns = Array<TableColumn>;
 /**数据声明 */
 export type DataType<T = any> = Record<string, T>;
 
-/**排序的方向声明 */
-export type SortFnDirection = 'ASC' | 'DESC';
 /**排序类型 */
-export type SortFnType<T extends any> = (direction: SortFnDirection, a: T, b: T) => number;
+export type SortFnType<T = any> = (direction: SortDirection, a: T, b: T) => number;
 
 /**分页配置 */
 export type PagenationType = {
   /* 页面总数 */
-  totalPage: number,
+  totalPage: number
 
   /* 数据总数 */
-  total: number,
+  totalData: number
 
   /* 当前页数 */
-  page: number,
+  page: number
 
   /* 每页显示的数量 */
-  size: number,
-};
-
-/**空状态渲染函数声明 */
-export type EmptyRenderType = () => VNode;
-
-/**默认分页配置 */
-export type DefaultPagenationType = {
-  total: number,
-  page: number,
   size: number
 };
 
+/**空状态渲染函数声明 */
+export type EmptyRenderType = () => VNode | VNode;
+
+/**默认分页配置 */
+export type DefaultPagenationType = {
+  page: number
+  size: number
+};
+
+/**真实传入表格组件的数据，主要区别在sort，将sort转为一定存在 */
+export type MergeTableColumn = {
+  title?: string
+  key: string
+  align?: Align
+  sort: SortType | false
+  className?: string
+  render?: (data: DataType, index: number) => VNode
+  width?: number | string
+};
+
 export interface TableKeyInjection {
-  columnsRef: Ref<TableColumns>
-  align: Ref<Align>,
-  dataRef: Ref<DataType[]>,
-  rowHeight: Ref<string | number>,
-  originPageRef: Ref<PagenationType>,
-  contentBorder: Ref<boolean>,
-  sortFunction: (e: MouseEvent, column: TableColumn, sortDirection: Ref<SortDirection>) => void,
-  lastPagenationStep: () => void,
-  nextPagenationStep: () => void,
+  columnsRef: Ref<MergeTableColumn[]>
+  align: Ref<Align>
+  dataRef: Ref<DataType[]>
+  originPageRef: Ref<PagenationType>
+  contentBorder: Ref<boolean>
+  sortFunction: (e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) => void
+  lastPagenationStep: () => void
+  nextPagenationStep: () => void
   setPagenationStep: (pageData: Partial<PagenationType>) => void
+  emitFn: ((event: string, ...args: any[]) => void) | ((event: string, ...args: any[]) => void)
 }
 
 /**表格声明 */
 export interface TableRef<T> {
-  'column-click': (column: TableColumn) => void;
-  'row-click': (row: Record<string, T>) => void;
-  'cell-click': (data: T) => void;
-  'page-change': (options: PagenationType) => void;
-  'input': (oldData: T, newData: T) => void;
-}
-
-/**表格body声明 */
-export interface TableBodyRef {
-  sortData: Function
+  'column-click': (column: TableColumn) => void
+  'row-click': (row: Record<string, T>) => void
+  'cell-click': (data: T) => void
+  'page-change': (options: PagenationType) => void
 }
 
 // Props 定义在这里
@@ -131,14 +138,14 @@ export const tableProps = {
   /** 每一列的配置项 */
   columns: {
     type: Array as PropType<TableColumns>,
-    default: () => [],
-    required: true
+    default: [] as TableColumns,
+    required: true,
   },
 
   /** 表格每一行的数据 */
   data: {
     type: Array as PropType<DataType[]>,
-    default: () => []
+    default: [] as DataType[],
   },
 
   /**配置该表格的对齐方式 */
@@ -150,30 +157,24 @@ export const tableProps = {
   /**配置表格是否有外部边框 */
   border: {
     type: Boolean as PropType<boolean>,
-    default: false
-  },
-
-  /**配置行高 */
-  rowHeight: {
-    type: [Number, String] as PropType<number | string>,
-    default: 40
+    default: false,
   },
 
   /**分页配置 */
   pagenation: {
-    type: Object as PropType<DefaultPagenationType>
+    type: Object as PropType<DefaultPagenationType>,
   },
 
   /**配置表格是否有内部边框 */
   contentBorder: {
     type: Boolean as PropType<boolean>,
-    default: false
+    default: false,
   },
 
   /**空状态渲染函数，返回一个VNode */
   emptyRender: {
-    type: Function as PropType<EmptyRenderType>
-  }
+    type: Object as PropType<EmptyRenderType>,
+  },
 }
 
 export type TablePublicProps = IxInnerPropTypes<typeof tableProps>
