@@ -9,16 +9,17 @@ import {
   computed,
   defineComponent,
   inject,
-  ref,
+  ComputedRef,
+  watch,
 } from '@vue/composition-api'
 import { getPxResult } from '../../utils/StyleFormat'
-import { MergeTableColumn, SORT_DIRECTION, SortDirection, TableKey, TableKeyInjection } from '../types'
+import { MergeableTableColumn, SORT_DIRECTION, SortDirection, TableKey, TableKeyInjection } from '../types'
 
 export default defineComponent({
   name: 'TableHeaderCell',
   props: {
     column: {
-      type: Object as PropType<MergeTableColumn>,
+      type: Object as PropType<MergeableTableColumn>,
       required: true,
     },
   },
@@ -27,7 +28,7 @@ export default defineComponent({
     const {
       align,
       contentBorder,
-      sortFunction,
+      // sortFunction,
       emitFn,
     } = InjectData
 
@@ -36,13 +37,23 @@ export default defineComponent({
       inject: InjectData,
     })
 
-    function headerClick(e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) {
-      emitFn('column-click', column)
-      sortFunction(e, column, sortDirection)
+    const column = computed(() => {
+      console.log('为什么', {...props.column});
+      return props.column;
+    })
+    const sortDirection: ComputedRef<SortDirection> = computed(() => {
+      console.log({...props.column}, 'haha');
+      return column.value.innerSort ? column.value.innerSort.direction : SORT_DIRECTION.DEFAULT
+    });
+
+    function headerClick(e: MouseEvent) {
+      emitFn('column-click', column);
+      console.log({...column.value});
+      if (column.value.innerSort) {
+        column.value.innerSort.sortFunction(sortDirection.value);
+      }
     }
 
-    const column = props.column
-    const sortDirection: Ref<SortDirection> = ref(SORT_DIRECTION.DEFAULT)
     const upClassList = computed(() => {
       return {
         'table-thead-th-title__sort__asc': true,
@@ -57,8 +68,8 @@ export default defineComponent({
     })
     const thClassList = [
       'table-thead-th',
-      column.className ? column.className : '',
-      column.sort ? 'table-thead-th__sort' : '',
+      column.value.className ? column.value.className : '',
+      column.value.innerSort ? 'table-thead-th__sort' : '',
       contentBorder.value ? 'table-thead-th__border' : '',
     ]
 
@@ -66,19 +77,19 @@ export default defineComponent({
       return (
         <th
           class={thClassList}
-          key={column.key}
+          key={column.value.key}
           style={{
-            textAlign: column.align || align.value,
-            ...column.width && { width: getPxResult(column.width) },
+            textAlign: column.value.align || align.value,
+            ...column.value.width && { width: getPxResult(column.value.width) },
           }}
-          utid={`table-header-${column.key}`}
-          onClick={e => headerClick(e, column, sortDirection)}>
+          utid={`table-header-${column.value.key}`}
+          onClick={e => headerClick(e)}>
           <div class="table-thead-th-title">
             <span class="table-thead-th-title__text">
-              {column.title}
+              {column.value.title}
             </span>
             {
-              column.sort ? (
+              column.value.innerSort ? (
                 <span class="table-thead-th-title__sort">
                   <span class={upClassList.value}>up</span>
                   <span class={downClassList.value}>down</span>

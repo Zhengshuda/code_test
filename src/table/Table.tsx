@@ -6,12 +6,14 @@ import {
   computed,
   defineComponent,
   provide,
+  watch,
 } from '@vue/composition-api'
 import { PagenationType, TableKey, TableKeyInjection, tableProps } from './types'
 import TableContent from './components/Content'
 import TablePagenation from './components/Pagenation'
 import { useData } from './hook/use-data'
-import { useSort } from './hook/use-sort'
+// import { useSort } from './hook/use-sort'
+import { useColumnSort } from './hook/use-sort1'
 import { useColumns } from './hook/use-columns'
 import { usePage } from './hook/use-page'
 import { Logger } from '@/utils/Logger'
@@ -24,10 +26,18 @@ export default defineComponent({
   setup(props, { emit }) {
     Logger.trace('Table.tsx/setup', '传入表格组件的参数', props)
     const columnsRef = useColumns(props)
+    // const {
+    //   sortDataRef,
+    //   sortFunction,
+    // } = useSort(props)
     const {
       sortDataRef,
-      sortFunction,
-    } = useSort(props)
+      newColumns
+    } = useColumnSort(columnsRef.value, props.data)
+
+    watch(newColumns,() => {
+      console.log('newColumn数据变化', newColumns);
+    })
     const {
       originPageRef,
       lastPagenationStep,
@@ -39,12 +49,12 @@ export default defineComponent({
     } = useData(props, originPageRef, sortDataRef)
 
     const privideData: TableKeyInjection = {
-      columnsRef: columnsRef,
+      columnsRef: newColumns,
       align: computed(() => props.align),
       contentBorder: computed(() => props.contentBorder),
       dataRef,
       originPageRef,
-      sortFunction,
+      // sortFunction,
       lastPagenationStep,
       nextPagenationStep,
       setPagenationStep,

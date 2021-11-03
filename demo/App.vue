@@ -109,7 +109,7 @@ export default defineComponent({
     }
 
     const pagenation = ref({
-      size: 1,
+      size: 3,
       page: 1,
     })
 

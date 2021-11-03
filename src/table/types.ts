@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { InjectionKey, Ref } from '@vue/composition-api'
+import { ComputedRef, InjectionKey, Ref } from '@vue/composition-api'
 import { VNode } from 'vue'
 import type { PropOptions, PropType } from 'vue-types/dist/types'
 type Prop<T, D = T> = PropOptions<T, D> | PropType<T>
@@ -111,13 +111,24 @@ export type MergeTableColumn = {
   width?: number | string
 };
 
+/**真实传入表格组件的数据 */
+export interface MergeableTableColumn extends TableColumn {
+  innerSort: MergeableSortType | false
+}
+
+/**真实排序配置 */
+export type MergeableSortType = {
+  direction: SortDirection
+  sortFunction: (sortDirection: SortDirection) => void;
+};
+
 export interface TableKeyInjection {
-  columnsRef: Ref<MergeTableColumn[]>
+  columnsRef: ComputedRef<MergeableTableColumn[]>
   align: Ref<Align>
   dataRef: Ref<DataType[]>
   originPageRef: Ref<PagenationType>
   contentBorder: Ref<boolean>
-  sortFunction: (e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) => void
+  // sortFunction: (e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) => void
   lastPagenationStep: () => void
   nextPagenationStep: () => void
   setPagenationStep: (pageData: Partial<PagenationType>) => void
