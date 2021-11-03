@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for table/components/Header.tsx</title>
+    <title>Code coverage report for table/hook/use-sorter.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">table/components</a> Header.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">table/hook</a> use-sorter.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
@@ -84,23 +84,7 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,62 +96,48 @@
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * Created by uedc on 2021/10/11.
- */
-&nbsp;
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 import { Logger } from '@/utils/Logger'
-import {
-  defineComponent,
-  inject,
-} from '@vue/composition-api'
-import { TableKey, TableKeyInjection } from '../types'
-import TableHeaderCell from './HeaderCell'
+import { ComputedRef, Ref, ref } from '@vue/composition-api'
+import { SORT_DIRECTION, SortDirection, SortStateType } from '../types'
 &nbsp;
-export default defineComponent({
-  name: 'TableHeader',
-  setup() {
-    const InjectData = inject(TableKey) as TableKeyInjection
-    const {
-      columnsRef,
-    } = InjectData
+export function useSorter(initedState: ComputedRef&lt;SortStateType&gt;): {
+  sortStateRef: Ref&lt;SortStateType&gt;
+  changeSortState: (key: string, direction: SortDirection) =&gt; void
+} {
+  const sortStateRef: Ref&lt;SortStateType&gt; = ref(initedState.value)
 &nbsp;
-    Logger.debug('Header.tsx/setup', 'Header接收到的变量：', InjectData)
+  // 改变排序状态的唯一入口
+  function changeSortState(key: string, direction: SortDirection) {
+    // 按照[默认、asc、desc]的顺序切换
+    const defaultList = [SORT_DIRECTION.DEFAULT, SORT_DIRECTION.ASC, SORT_DIRECTION.DESC]
+    const index = defaultList.findIndex(item =&gt; item === direction)
+    const sortDirection = index + 1 &gt; 2 ? defaultList[0] : defaultList[index + 1]
+    sortStateRef.value.direction = sortDirection
+    sortStateRef.value.key = key
+    Logger.info('use-sorter/changeSortState', '切换后的排序状态为：', sortStateRef.value)
+  }
 &nbsp;
-    return () =&gt; {
-      return (
-        &lt;thead class="table-thead"&gt;
-          &lt;tr class="table-thead-tr"&gt;
-            {
-              columnsRef.value.map(column =&gt; {
-                return (&lt;TableHeaderCell column={column}/&gt;)
-              })
-            }
-          &lt;/tr&gt;
-        &lt;/thead&gt;
-      )
-    }
-  },
-})
+  return {
+    sortStateRef,
+    changeSortState,
+  }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

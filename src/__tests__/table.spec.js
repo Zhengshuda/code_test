@@ -101,8 +101,8 @@ describe('Table', () => {
   })
 
   test('test column align', () => {
-    let newColumns = cloneDeep(defaultColumns);
-    newColumns[0].align = 'left';
+    const newColumns = cloneDeep(defaultColumns)
+    newColumns[0].align = 'left'
     const wrapper = TableMount({
       propsData: {
         columns: newColumns,
@@ -114,10 +114,10 @@ describe('Table', () => {
     const header = wrapper.find(`[utid="table-header-${newColumns[0].key}"]`)
     expect(header.element.style['text-align']).toBe('left')
 
-    const target = [];
+    const target = []
     defaultData.forEach((item, index) => {
       target.push(`[utid="table-body-${newColumns[0].key}-${index}"]`)
-    });
+    })
 
     target.forEach(key => {
       const body = wrapper.find(key)
@@ -134,7 +134,7 @@ describe('Table', () => {
       },
     })
 
-    expect(wrapper.find('.table-wrap-border').exists()).toBeTruthy()
+    expect(wrapper.find('.table-wrap-border').exists()).toBe(true)
   })
 
   test('test contentBorder', () => {
@@ -171,24 +171,48 @@ describe('Table', () => {
       propsData: {
         columns: defaultColumns,
         data: [],
-        emprtRender: () => (<h1 class="soda-empty">空</h1>),
+        emptyRender: () => (<h1 class="soda-empty">空</h1>),
       },
     })
 
-    expect(wrapper.find('.soda-empty').exists).toBeTruthy()
+    expect(wrapper.find('.soda-empty').exists()).toBe(true)
   })
 
-  test('test column className', () => {
-    let newColumns = cloneDeep(defaultColumns);
-    newColumns[0].className = 'soda-test';
+  test('test emptyRender VNode', () => {
     const wrapper = TableMount({
       propsData: {
         columns: defaultColumns,
-        data: newColumns,
+        data: [],
+        emptyRender: <h1 class="soda-empty">空</h1>,
       },
     })
 
-    expect(wrapper.find('.soda-test').exists).toBeTruthy()
+    expect(wrapper.find('.soda-empty').exists()).toBe(true)
+  })
+
+  test('test emptyRender VNode', () => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: [],
+        emptyRender: (<h1 class="soda-empty">空</h1>),
+      },
+    })
+
+    expect(wrapper.find('.soda-empty').exists()).toBe(true)
+  })
+
+  test('test column className', () => {
+    const newColumns = cloneDeep(defaultColumns)
+    newColumns[0].className = 'soda-test'
+    const wrapper = TableMount({
+      propsData: {
+        columns: newColumns,
+        data: defaultData,
+      },
+    })
+
+    expect(wrapper.find('.soda-test').exists()).toBe(true)
   })
 
   test('test pagenation', async () => {
@@ -203,15 +227,36 @@ describe('Table', () => {
       },
     })
 
-    expect(wrapper.find('.table-pagenation').exists).toBeTruthy()
-    expect(wrapper.find('[utid="table-pagenation-last"]').exists).toBeTruthy()
-    expect(wrapper.find('[utid="table-pagenation-next"]').exists).toBeTruthy()
+    expect(wrapper.find('.table-pagenation').exists()).toBeTruthy()
+    expect(wrapper.find('[utid="table-pagenation-last"]').exists()).toBeTruthy()
+    expect(wrapper.find('[utid="table-pagenation-next"]').exists()).toBeTruthy()
 
     for(let i = 0; i < defaultData.length; i++) {
       const pagebtn = wrapper.find(`[utid="table-pagenation-${i}"]`)
-      expect(pagebtn.exists).toBeTruthy()
+      expect(pagebtn.exists()).toBeTruthy()
     }
     expect(wrapper.find(`[utid="table-pagenation-${defaultData.length}"]`).exists()).toBe(false)
+  })
+
+  test('测试分页数据改变时表格数据是否改变', async () => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: defaultData,
+        pagenation: {
+          page: 1,
+          size: 1,
+        },
+      },
+    })
+
+    await wrapper.setProps({
+      pagenation: undefined,
+    })
+    await nextTick()
+    expect(wrapper.find('.table-pagenation').exists()).toBeFalsy()
+    expect(wrapper.find('[utid="table-pagenation-last"]').exists()).toBeFalsy()
+    expect(wrapper.find('[utid="table-pagenation-next"]').exists()).toBeFalsy()
   })
 
   test('测试分页按钮的点击', async () => {
@@ -251,7 +296,7 @@ describe('Table', () => {
     expect(classList.indexOf('disabled') !== -1).toBe(true)
   })
 
-  test('测试分页下一步按钮在对应的状态下是否置灰', () => {
+  test('测试分页下一步按钮在对应的状态下是否置灰', async () => {
     const wrapper = TableMount({
       propsData: {
         columns: defaultColumns,
@@ -266,6 +311,17 @@ describe('Table', () => {
     const end = wrapper.find('[utid="table-pagenation-next"]')
     const classList = end.element.className
     expect(classList.indexOf('disabled') !== -1).toBe(true)
+
+    await wrapper.setProps({
+      pagenation: {
+        page: 1,
+        size: defaultData.length - 1,
+      },
+    })
+    await nextTick()
+    const newEnd = wrapper.find('[utid="table-pagenation-next"]')
+    const newClassList = newEnd.element.className
+    expect(newClassList.indexOf('disabled') !== -1).toBe(false)
   })
 
   test('测试分页超出页数时是否自动切到最后一个', async () => {
@@ -401,9 +457,9 @@ describe('Table', () => {
     })
 
     const sortColumn = wrapper.find(`[utid="table-header-${newColumns[0].key}"]`)
-    expect(sortColumn.find('.table-thead-th-title__sort__asc').exists).toBeTruthy()
-    expect(sortColumn.find('.table-thead-th-title__sort__desc').exists).toBeTruthy()
-    expect(sortColumn.find('.table-thead-th__sort').exists).toBeTruthy()
+    expect(sortColumn.find('.table-thead-th-title__sort__asc').exists()).toBeTruthy()
+    expect(sortColumn.find('.table-thead-th-title__sort__desc').exists()).toBeTruthy()
+    expect(sortColumn.find('.table-thead-th__sort').exists()).toBeTruthy()
   })
 
   test('测试点击排序', async () => {
@@ -420,28 +476,29 @@ describe('Table', () => {
     await sortColumn.trigger('click')
     await nextTick()
     const ascList = []
+    const descList = []
 
     defaultData.forEach((item, index) => {
       const row = wrapper.find(`[utid="table-body-${newColumns[0].key}-${index}"]`)
       ascList.push(row)
+      descList.push(row)
     })
 
     for(let i = 0;i < ascList.length; i++) {
       if (i !== ascList.length - 1) {
-        const cur = ascList[i].element.innerHTML
-        const next = ascList[i + 1].element.innerHTML
+        const cur = ascList[i].text()
+        const next = ascList[i + 1].text()
         expect(cur <= next).toBe(true)
       }
     }
 
     await sortColumn.trigger('click')
     await nextTick()
-    const descList = []
 
     for(let i = 0;i < descList.length; i++) {
       if (i !== descList.length - 1) {
-        const cur = descList[i].element.innerHTML
-        const next = descList[i + 1].element.innerHTML
+        const cur = descList[i].text()
+        const next = descList[i + 1].text()
         expect(cur >= next).toBe(true)
       }
     }
@@ -451,7 +508,7 @@ describe('Table', () => {
     const list = []
 
     for(let i = 0;i < list.length; i++) {
-      const cur = list[i].element.innerHTML
+      const cur = list[i].text()
       expect(cur === defaultData[i][newColumns[0].key]).toBe(true)
     }
   })
@@ -470,7 +527,7 @@ describe('Table', () => {
           direction: '',
           sortFn: (direction, a, b) => {
             if (!direction) {
-              return 0;
+              return 0
             }
             return direction === 'ASC' ? parseFloat(a) - parseFloat(b) : parseFloat(b) - parseFloat(a)
           },
@@ -510,8 +567,8 @@ describe('Table', () => {
 
     for(let i = 0;i < ascList.length; i++) {
       if (i !== ascList.length - 1) {
-        const cur = ascList[i].element.innerHTML
-        const next = ascList[i + 1].element.innerHTML
+        const cur = ascList[i].text()
+        const next = ascList[i + 1].text()
         expect(parseFloat(cur) <= parseFloat(next)).toBe(true)
       }
     }
@@ -528,15 +585,15 @@ describe('Table', () => {
 
     for(let i = 0;i < descList.length; i++) {
       if (i !== descList.length - 1) {
-        const cur = descList[i].element.innerHTML
-        const next = descList[i + 1].element.innerHTML
+        const cur = descList[i].text()
+        const next = descList[i + 1].text()
         expect(parseFloat(cur) >= parseFloat(next)).toBe(true)
       }
     }
   })
 
   test('测试列的渲染函数', () => {
-    let newColumns = cloneDeep(defaultColumns);
+    const newColumns = cloneDeep(defaultColumns)
     const map = {
       0: '女',
       1: '男',
@@ -553,25 +610,117 @@ describe('Table', () => {
       },
     })
 
-    defaultColumns.forEach((item, index) => {
+    defaultData.forEach((item, index) => {
       // `table-body-${column.key}-${index}`
-      let ele = wrapper.find(`[utid="table-body-${newColumns[2].key}-${index}"]`);
-      expect(ele.element.innerHTML === `${map[item.sex]}${index}`);
-    });
+      const ele = wrapper.find(`[utid="table-body-${newColumns[2].key}-${index}"]`)
+      expect(ele.text() === `${map[item.sex]}${index}`).toBe(true)
+    })
   })
 
-  test('异常测试', () => {
-      try {
-        const wrapper = TableMount({
-          propsData: {
-            columns: 1,
-            data: defaultData,
-          },
-        })
-      } catch(e) {
-        expect(!!e).toBeTruthy()
-      } finally {
+  test('测试点击头部抛出事件', async() => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: defaultData,
+      },
+    })
+    const headerCell = wrapper.find(`[utid="table-header-${defaultColumns[0].key}"]`)
+    await headerCell.trigger('click')
+    await nextTick()
+    const emitRes = wrapper.emitted()['column-click']
+    expect(emitRes).toBeTruthy()
+    expect(emitRes[0][0].key).toBe(defaultColumns[0].key)
+  })
 
-      } 
+  test('测试点击行抛出事件', async() => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: defaultData,
+      },
+    })
+    const rowCell = wrapper.find(`[utid="table-body-row-0"]`)
+    await rowCell.trigger('click')
+    await nextTick()
+    const emitRes = wrapper.emitted()['row-click']
+    expect(emitRes).toBeTruthy()
+    expect(emitRes[0][0]).toEqual(defaultData[0])
+  })
+
+  test('测试点击行内某一块抛出事件', async() => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: defaultData,
+      },
+    })
+    const rowCell = wrapper.find(`[utid="table-body-${defaultColumns[0].key}-0"]`)
+    await rowCell.trigger('click')
+    await nextTick()
+    const emitRes = wrapper.emitted()['cell-click']
+    expect(emitRes).toBeTruthy()
+    expect(emitRes[0][0]).toEqual(defaultData[0][defaultColumns[0].key])
+  })
+
+  test('测试分页抛出事件', async() => {
+    const wrapper = TableMount({
+      propsData: {
+        columns: defaultColumns,
+        data: defaultData,
+        pagenation: {
+          size: 1,
+          page: 1,
+        },
+      },
+    })
+    const nextBtn = wrapper.find('[utid="table-pagenation-next"]')
+    await nextBtn.trigger('click')
+    await nextTick()
+    const emitRes = wrapper.emitted()['page-change']
+    expect(emitRes).toBeTruthy()
+    expect(emitRes.length).toBe(1)
+    expect(emitRes[0][0].page).toBe(2)
+  })
+
+  test('测试数据突然变多，分页，排序是否发生改变', async() => {
+    const newColumns = cloneDeep(defaultColumns)
+    newColumns[0].sort = {
+      direction: 'ASC',
+    }
+    const wrapper = TableMount({
+      propsData: {
+        columns: newColumns,
+        data: defaultData,
+        pagenation: {
+          page: 2,
+          size: 2,
+        },
+      },
+    })
+
+    function test() {
+      // 测试排序
+      const node = wrapper.find(`[utid="table-header-${newColumns[0].key}"]`)
+      expect(node.find('.table-thead-th-title__sort__asc').element.className.includes('active')).toBe(true)
+
+      // 测试分页
+      const page = wrapper.find(`[utid="table-pagenation-1"]`)
+      expect(page.vm.active).toBe(true)
+    }
+    test()
+    const list = new Array(100).fill(1)
+    const newData = list.map((item, index) => {
+      return {
+        num: index,
+        name: (100-index) + 'haha',
+        sex: index % 2,
+      }
+    })
+
+    await wrapper.setProps({
+      data: newData,
+    })
+    await nextTick()
+    test()
   })
 })

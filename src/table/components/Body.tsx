@@ -7,8 +7,8 @@ import {
   defineComponent,
   inject,
 } from '@vue/composition-api'
-import { getPxResult } from '../../utils/StyleFormat'
 import { DataType, TableKey, TableKeyInjection } from '../types'
+import TableBodyCell from './BodyCell'
 
 export default defineComponent({
   name: 'TableBody',
@@ -16,9 +16,7 @@ export default defineComponent({
     const InjectData = inject(TableKey) as TableKeyInjection
     const {
       columnsRef,
-      align,
       dataRef,
-      contentBorder,
       emitFn,
     } = InjectData
 
@@ -29,28 +27,20 @@ export default defineComponent({
         <tbody class="table-body">
           {
             dataRef.value.map((item: DataType, index: number) => {
-              const isLastTd = index === dataRef.value.length - 1
+              const isLast = index === dataRef.value.length - 1
               return (
-                <tr class="table-body-tr" onClick={() => emitFn('row-click', item)}>
+                <tr
+                  class="table-body-tr"
+                  utid={`table-body-row-${index}`}
+                  onClick={() => emitFn('row-click', item)}>
                   {
                     columnsRef.value.map(column => {
-                      const tdClassList = [
-                        'table-body-td',
-                        isLastTd ? 'table-body-td-last' : '',
-                        contentBorder.value ? 'table-body-td-border' : '',
-                      ]
-                      return (
-                        <td
-                          utid={`table-body-${column.key}-${index}`}
-                          class={tdClassList}
-                          style={{
-                            textAlign: column.align || align.value,
-                            ...column.width && { width: getPxResult(column.width) },
-                          }}
-                          onClick={() => emitFn('cell-click', item[column.key])}>
-                          {column.render ? column.render(item, index) : item[column.key]}
-                        </td>
-                      )
+                      return (<TableBodyCell
+                        column={column}
+                        data={item}
+                        index={index}
+                        isLast={isLast}
+                      />)
                     })
                   }
                 </ tr>

@@ -3,7 +3,8 @@
     <TestTable
       :columns="columns"
       :data="data"
-      :width="100"
+      align="left"
+      content-border
     >
     </TestTable>
   </div>

@@ -24,8 +24,8 @@ const LoggerWrap = (place: string, args: any[], log: any, isProdLog?: boolean) =
 
 export const Logger = {
   info: (place: string, ...args: any[]) => LoggerWrap(place, args, console.info, true),
-  warn: (place: string, ...args: any[]) => LoggerWrap(place, args, console.warn, true),
-  error: (place: string, ...args: any[]) => LoggerWrap(place, args, console.error, true),
+  warn: (place: string, ...args: any[]) => LoggerWrap(place, args, console.warn),
+  error: (place: string, ...args: any[]) => LoggerWrap(place, args, console.error),
   debug: (place: string, ...args: any[]) => LoggerWrap(place, args, console.log),
   trace: (place: string, ...args: any[]) => LoggerWrap(place, args, console.trace),
 }

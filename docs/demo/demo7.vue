@@ -3,6 +3,10 @@
     <TestTable
       :columns="columns"
       :data="data"
+      :pagenation="{
+        page: 2,
+        size: 10
+      }"
     >
     </TestTable>
   </div>
@@ -10,10 +14,10 @@
 
 <script lang="tsx">
 import { TestTable } from "../../src/table";
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, ref } from "@vue/composition-api";
 
 export default defineComponent({
-  name: "App",
+  name: "Demo7",
   components: {
     TestTable,
   },
@@ -22,6 +26,9 @@ export default defineComponent({
       {
         title: "序号",
         key: "num",
+        sort: {
+          direction: 'DESC'
+        }
       },
       {
         title: "名称",
@@ -59,7 +66,21 @@ export default defineComponent({
       },
     ]);
 
+    onMounted(() => {
+      setTimeout(() => {
+        const list = new Array(100).fill(1)
 
+        const newData = list.map((item, index) => {
+          return {
+            num: index,
+            name: (100-index) + 'haha',
+            sex: index % 2,
+          }
+        })
+
+        data.value = newData
+      }, 5000);
+    })
     return {
       columns,
       data,

@@ -4,21 +4,20 @@
 
 import { Logger } from '@/utils/Logger'
 import {
+  ComputedRef,
   PropType,
-  Ref,
   computed,
   defineComponent,
   inject,
-  ref,
 } from '@vue/composition-api'
 import { getPxResult } from '../../utils/StyleFormat'
-import { MergeTableColumn, SORT_DIRECTION, SortDirection, TableKey, TableKeyInjection } from '../types'
+import { SORT_DIRECTION, SortDirection, TableColumn, TableKey, TableKeyInjection } from '../types'
 
 export default defineComponent({
   name: 'TableHeaderCell',
   props: {
     column: {
-      type: Object as PropType<MergeTableColumn>,
+      type: Object as PropType<TableColumn>,
       required: true,
     },
   },
@@ -27,7 +26,8 @@ export default defineComponent({
     const {
       align,
       contentBorder,
-      sortFunction,
+      sortState,
+      changeSortState,
       emitFn,
     } = InjectData
 
@@ -36,23 +36,32 @@ export default defineComponent({
       inject: InjectData,
     })
 
-    function headerClick(e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) {
+    const column = props.column
+    const hasSort = computed(() => column.key === sortState.value.key)
+    const sortDirection: ComputedRef<SortDirection> = computed(() => {
+      if (!hasSort.value) {
+        return SORT_DIRECTION.DEFAULT
+      }
+
+      return sortState.value.direction
+    })
+
+    function headerClick() {
       emitFn('column-click', column)
-      sortFunction(e, column, sortDirection)
+      // sortFunction(e, column, sortDirection)
+      changeSortState(column.key, sortDirection.value)
     }
 
-    const column = props.column
-    const sortDirection: Ref<SortDirection> = ref(SORT_DIRECTION.DEFAULT)
     const upClassList = computed(() => {
       return {
         'table-thead-th-title__sort__asc': true,
-        'active': sortDirection.value === SORT_DIRECTION.ASC,
+        'active': hasSort && sortDirection.value === SORT_DIRECTION.ASC,
       }
     })
     const downClassList = computed(() => {
       return {
         'table-thead-th-title__sort__desc': true,
-        'active': sortDirection.value === SORT_DIRECTION.DESC,
+        'active': hasSort && sortDirection.value === SORT_DIRECTION.DESC,
       }
     })
     const thClassList = [
@@ -72,7 +81,7 @@ export default defineComponent({
             ...column.width && { width: getPxResult(column.width) },
           }}
           utid={`table-header-${column.key}`}
-          onClick={e => headerClick(e, column, sortDirection)}>
+          onClick={headerClick}>
           <div class="table-thead-th-title">
             <span class="table-thead-th-title__text">
               {column.title}

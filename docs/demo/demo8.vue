@@ -23,7 +23,8 @@ export default defineComponent({
         title: "序号",
         key: "num",
         sort: {
-          sortFn(direction: string, a: number, b: number) {
+          direction: 'ASC',
+          sortFn: (direction: string, a: number, b: number) => {
             if (direction === 'ASC') {
               return b - a;
             }
@@ -53,7 +54,7 @@ export default defineComponent({
     const data = ref([
       {
         num: "109",
-        name: "小明",
+        name: "小明111",
         sex: 0,
       },
       {

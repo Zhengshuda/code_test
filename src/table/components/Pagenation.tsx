@@ -4,38 +4,46 @@
 
 import { Logger } from '@/utils/Logger'
 import {
-  computed,
-  defineComponent, inject,
+  PropType,
+  computed, defineComponent,
 } from '@vue/composition-api'
-import { TableKey, TableKeyInjection } from '../types'
+import { PagenationStepFnType, PagenationType, SetPagenationStepFnType } from '../types'
 import PageBtn from './PageBtn'
 
 export default defineComponent({
-  name: 'TablePagenation',
-  setup() {
-    const InjectData = inject(TableKey) as TableKeyInjection
-    const {
-      originPageRef,
-      lastPagenationStep,
-      nextPagenationStep,
-      setPagenationStep,
-    } = InjectData
+  name: 'Pagenation',
 
-    Logger.debug('Pagenation.tsx/setup', '当前pagenation接收的参数', {
-      originPageRef,
-      lastPagenationStep,
-      nextPagenationStep,
-      setPagenationStep,
-    })
+  // 通过props传入，后续可以直接剥离表格使用该组件
+  props: {
+    pageConfig: {
+      type: Object as PropType<PagenationType>,
+      required: true,
+    },
+    lastPagenationStep: {
+      type: Function as PropType<PagenationStepFnType>,
+      required: true,
+    },
+    nextPagenationStep: {
+      type: Function as PropType<PagenationStepFnType>,
+      required: true,
+    },
+    setPagenationStep: {
+      type: Function as PropType<SetPagenationStepFnType>,
+      required: true,
+    },
+  },
+  setup(props) {
+
+    Logger.debug('Pagenation.tsx/setup', '当前pagenation接收的参数', props)
 
     const pageBtns = computed(() => {
       const btns = []
-      for (let i = 0; i < originPageRef.value.totalPage; i++) {
+      for (let i = 0; i < props.pageConfig.totalPage; i++) {
         btns.push(
           (<PageBtn
             utid={`table-pagenation-${i}`}
-            active={originPageRef.value.page === i + 1}
-            on-click={() => setPagenationStep({
+            active={props.pageConfig.page === i + 1}
+            on-click={() => props.setPagenationStep({
               page: i + 1,
             })}>{i + 1}</PageBtn>),
         )
@@ -48,19 +56,19 @@ export default defineComponent({
     return () => (
       <div class="table-pagenation-content">
         <div class="table-pagenation-content__total">
-          {`共${originPageRef.value.totalData}条数据`}
+          {`共${props.pageConfig.totalData}条数据`}
         </div>
         <PageBtn
           utid='table-pagenation-last'
           direction='left'
-          cls={originPageRef.value.page === 1 ? 'disabled' : ''}
-          on-click={lastPagenationStep} />
+          cls={props.pageConfig.page === 1 ? 'disabled' : ''}
+          on-click={() => props.lastPagenationStep()} />
         {pageBtns.value}
         <PageBtn
           utid='table-pagenation-next'
           direction='right'
-          cls={originPageRef.value.page === originPageRef.value.totalPage ? 'disabled' : ''}
-          on-click={nextPagenationStep} />
+          cls={props.pageConfig.page === props.pageConfig.totalPage ? 'disabled' : ''}
+          on-click={() => props.nextPagenationStep()} />
       </div>
     )
   },

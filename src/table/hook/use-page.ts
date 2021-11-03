@@ -1,6 +1,6 @@
 import { Logger } from '@/utils/Logger'
-import { Ref, computed, ref, watch, watchEffect } from '@vue/composition-api'
-import { DataType, PagenationType, TablePublicProps } from '../types'
+import { ComputedRef, Ref, ref, watch, watchEffect } from '@vue/composition-api'
+import { DataType, DefaultPagenationType, PagenationStepFnType, PagenationType, SetPagenationStepFnType } from '../types'
 
 const DEFAULT_PAGENATION: PagenationType = {
   totalPage: 1,
@@ -9,30 +9,32 @@ const DEFAULT_PAGENATION: PagenationType = {
   size: 1,
 }
 
-export function usePage(props: TablePublicProps, pageChangeFn: (pageConfig: PagenationType) => void): {
-  originPageRef: Ref<PagenationType>
-  lastPagenationStep: () => void
-  nextPagenationStep: () => void
-  setPagenationStep: (pageData: Partial<PagenationType>) => void
+export function usePage(
+  originDataRef: ComputedRef<DataType>,
+  pagenationRef: ComputedRef<DefaultPagenationType | undefined>,
+  emitFn: ((event: string, ...args: SafeAny[]) => void) | ((event: string, ...args: SafeAny[]) => void)): {
+    originPageRef: Ref<PagenationType>
+    lastPagenationStep: PagenationStepFnType
+    nextPagenationStep: PagenationStepFnType
+    setPagenationStep: SetPagenationStepFnType
 } {
 
   // 分页配置数据
   const originPageRef: Ref<PagenationType> = ref(DEFAULT_PAGENATION)
 
-  // 原始数据
-  const originData = computed(() => props.data as DataType[])
-
   // 向外抛出数据
   watch(originPageRef, () => {
-    pageChangeFn(originPageRef.value)
-  }, {
-    immediate: true,
+    emitFn('page-change', originPageRef.value)
   })
 
   watchEffect(() => {
-    const currentDataLength = originData.value.length
-    const defaultPagenation = props.pagenation ? props.pagenation : DEFAULT_PAGENATION
-    const size = defaultPagenation.size || 1
+
+    // 数据变化时触发
+    const currentDataLength = originDataRef.value.length
+
+    // 分页配置变化时触发
+    const defaultPagenation = { ...DEFAULT_PAGENATION, ...pagenationRef.value }
+    const size = defaultPagenation.size
     const totalPage = currentDataLength < size ?
       1 :
       Math.floor(currentDataLength / size) + (currentDataLength % size !== 0 ? 1 : 0)
@@ -61,28 +63,24 @@ export function usePage(props: TablePublicProps, pageChangeFn: (pageConfig: Page
     })
   })
 
+  // 跳转到上一页
   function lastPagenationStep() {
     let page = originPageRef.value.page - 1
     page = page < 1 ? 1 : page
-    originPageRef.value = {
+    setPagenationStep({
       page,
-      totalPage: originPageRef.value.totalPage,
-      size: originPageRef.value.size,
-      totalData: originPageRef.value.totalData,
-    }
+    })
 
     Logger.debug('usePage/lastPagenationStep', '点击下一步', originPageRef)
   }
 
+  // 跳转到下一页
   function nextPagenationStep() {
     let page = originPageRef.value.page + 1
     page = page > originPageRef.value.totalPage ? originPageRef.value.totalPage : page
-    originPageRef.value = {
+    setPagenationStep({
       page,
-      totalPage: originPageRef.value.totalPage,
-      size: originPageRef.value.size,
-      totalData: originPageRef.value.totalData,
-    }
+    })
 
     Logger.debug('usePage/nextPagenationStep', '点击上一步', originPageRef)
   }

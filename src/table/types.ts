@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { InjectionKey, Ref } from '@vue/composition-api'
+import { ComputedRef, InjectionKey, Ref } from '@vue/composition-api'
 import { VNode } from 'vue'
 import type { PropOptions, PropType } from 'vue-types/dist/types'
 type Prop<T, D = T> = PropOptions<T, D> | PropType<T>
@@ -48,6 +48,7 @@ export const enum SORT_DIRECTION {
   ASC = 'ASC',
   DESC = 'DESC'
 }
+/**排序方向的声明 */
 export type SortDirection = typeof SORT_DIRECTION[keyof typeof SORT_DIRECTION];
 
 /**排序配置 */
@@ -55,6 +56,12 @@ export type SortType = {
   direction: SortDirection
   sortFn?: SortFnType
 };
+
+/**排序状态 */
+export type SortStateType = {
+  key: string
+  direction: SortDirection
+}
 
 /**表格每一列的配置 */
 export type TableColumn = {
@@ -100,29 +107,24 @@ export type DefaultPagenationType = {
   size: number
 };
 
-/**真实传入表格组件的数据，主要区别在sort，将sort转为一定存在 */
-export type MergeTableColumn = {
-  title?: string
-  key: string
-  align?: Align
-  sort: SortType | false
-  className?: string
-  render?: (data: DataType, index: number) => VNode
-  width?: number | string
-};
-
+/**inject进子组件的数据 */
 export interface TableKeyInjection {
-  columnsRef: Ref<MergeTableColumn[]>
+  columnsRef: Ref<TableColumns>
   align: Ref<Align>
-  dataRef: Ref<DataType[]>
+  dataRef: ComputedRef<DataType[]>
   originPageRef: Ref<PagenationType>
   contentBorder: Ref<boolean>
-  sortFunction: (e: MouseEvent, column: MergeTableColumn, sortDirection: Ref<SortDirection>) => void
-  lastPagenationStep: () => void
-  nextPagenationStep: () => void
-  setPagenationStep: (pageData: Partial<PagenationType>) => void
+  sortState: Ref<SortStateType>
+  changeSortState: (key: string, direction: SortDirection) => void
+  lastPagenationStep: PagenationStepFnType
+  nextPagenationStep: PagenationStepFnType
+  setPagenationStep: SetPagenationStepFnType
   emitFn: ((event: string, ...args: any[]) => void) | ((event: string, ...args: any[]) => void)
 }
+
+export type PagenationStepFnType = () => void
+
+export type SetPagenationStepFnType = (pageData: Partial<PagenationType>) => void
 
 /**表格声明 */
 export interface TableRef<T> {
@@ -173,7 +175,7 @@ export const tableProps = {
 
   /**空状态渲染函数，返回一个VNode */
   emptyRender: {
-    type: Object as PropType<EmptyRenderType>,
+    type: [Object, Function] as PropType<EmptyRenderType>,
   },
 }
 

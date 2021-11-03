@@ -3,3 +3,5 @@ declare let process: {
     NODE_ENV: 'development' | 'production'
   }
 };
+
+declare type SafeAny = any;

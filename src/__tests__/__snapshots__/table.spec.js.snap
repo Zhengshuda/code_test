@@ -17,10 +17,16 @@ exports[`Table render 1`] = `
       </tr>
     </thead>
     <tbody class=\\"table-body\\">
-      <tr class=\\"table-body-tr\\">
-        <td utid=\\"table-body-num-0\\" class=\\"table-body-td table-body-td-last\\">4</td>
-        <td utid=\\"table-body-name-0\\" class=\\"table-body-td table-body-td-last\\">小黄</td>
-        <td utid=\\"table-body-sex-0\\" class=\\"table-body-td table-body-td-last\\">0</td>
+      <tr utid=\\"table-body-row-0\\" class=\\"table-body-tr\\">
+        <td utid=\\"table-body-num-0\\" class=\\"table-body-td table-body-td-last\\">
+          <div class=\\"ellipsis\\">4</div>
+        </td>
+        <td utid=\\"table-body-name-0\\" class=\\"table-body-td table-body-td-last\\">
+          <div class=\\"ellipsis\\">小黄</div>
+        </td>
+        <td utid=\\"table-body-sex-0\\" class=\\"table-body-td table-body-td-last\\">
+          <div class=\\"ellipsis\\">0</div>
+        </td>
       </tr>
     </tbody>
   </table>

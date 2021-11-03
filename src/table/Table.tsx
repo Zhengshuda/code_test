@@ -7,15 +7,16 @@ import {
   defineComponent,
   provide,
 } from '@vue/composition-api'
-import { PagenationType, TableKey, TableKeyInjection, tableProps } from './types'
+import { TableKey, TableKeyInjection, tableProps } from './types'
 import TableContent from './components/Content'
 import TablePagenation from './components/Pagenation'
 import { useData } from './hook/use-data'
-import { useSort } from './hook/use-sort'
 import { useColumns } from './hook/use-columns'
 import { usePage } from './hook/use-page'
 import { Logger } from '@/utils/Logger'
 import { isFunction } from 'lodash'
+import { useSorter } from './hook/use-sorter'
+import { useTableSorter } from './hook/use-table-sorter'
 
 export default defineComponent({
   name: 'Table',
@@ -23,20 +24,46 @@ export default defineComponent({
   emits: ['page-change'],
   setup(props, { emit }) {
     Logger.trace('Table.tsx/setup', '传入表格组件的参数', props)
+
+    if (!Array.isArray(props.data)) {
+      Logger.warn('useData', '传入的data不能为非数组', props.data)
+    }
+
+    // 初始数据
+    const originDataRef = computed(() => Array.isArray(props.data) ? props.data : [])
+
+    // 分页数据
+    const pagenationRef = computed(() => props.pagenation)
+
+    // 调用useColumns，获取一个新的数组
     const columnsRef = useColumns(props)
+
+    // 获取初始化排序状态
+    const initedState = useTableSorter(columnsRef)
+
+    // 调用useSorter，获取排序状态
     const {
-      sortDataRef,
-      sortFunction,
-    } = useSort(props)
+      sortStateRef,
+      changeSortState,
+    } = useSorter(initedState)
+
+    // 调用usePage，获取分页状态
     const {
       originPageRef,
       lastPagenationStep,
       nextPagenationStep,
       setPagenationStep,
-    } = usePage(props, (pageConfig: PagenationType) => emit('page-change', pageConfig))
+    } = usePage(originDataRef, pagenationRef, emit)
+
+    // 调用useData，获取表格数据
     const {
       dataRef,
-    } = useData(props, originPageRef, sortDataRef)
+    } = useData(
+      columnsRef,
+      pagenationRef,
+      originPageRef,
+      sortStateRef,
+      originDataRef)
 
     const privideData: TableKeyInjection = {
       columnsRef: columnsRef,
@@ -44,7 +71,8 @@ export default defineComponent({
       contentBorder: computed(() => props.contentBorder),
       dataRef,
       originPageRef,
-      sortFunction,
+      sortState: computed(() => sortStateRef.value),
+      changeSortState,
       lastPagenationStep,
       nextPagenationStep,
       setPagenationStep,
@@ -65,11 +93,17 @@ export default defineComponent({
           props.data.length ? (
             props.pagenation ? (
               <div class="table-pagenation">
-                <TablePagenation></TablePagenation>
+                <TablePagenation
+                  pageConfig={originPageRef.value}
+                  lastPagenationStep={lastPagenationStep}
+                  nextPagenationStep={nextPagenationStep}
+                  setPagenationStep={setPagenationStep}></TablePagenation>
               </div>
             ) : null
-          ): (
-            isFunction(props.emptyRender) ? props.emptyRender() : props.emptyRender
+          ) : (
+            isFunction(props.emptyRender) ?
+              props.emptyRender() :
+              props.emptyRender
           )
         }
       </div>

@@ -31,15 +31,15 @@ export default defineComponent({
       default: false,
     },
     cls: {
-      type: [Array, String],
+      type: String,
       default: '',
     },
   },
   emits: ['click'],
   setup(props, { slots, emit }) {
-    const direction = DIRECTION[props.direction as string]
+    const direction = DIRECTION[props.direction]
     const text = DIRECTION_TEXT[direction]
-    const classList = computed(() => Array.isArray(props.cls) ? props.cls : [props.cls])
+    const classList = computed(() => props.cls)
     const active = computed(() => props.active)
 
     return () => (
@@ -47,7 +47,7 @@ export default defineComponent({
         direction ? `table-pagenation-content__${direction}-btn` : '',
         'table-pagenation-content__btn',
         active.value ? 'active' : '',
-        ...classList.value,
+        classList.value,
       ]}
       onClick={() => emit('click')}>{slots?.default?.() || text}</div>
     )

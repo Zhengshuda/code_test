@@ -1,9 +1,9 @@
 <template>
   <div class="test-class">
+    <h1>测试控制台报错</h1>
     <TestTable
       :columns="columns"
       :data="data"
-      :empty-render="emptyRender"
     >
     </TestTable>
   </div>
